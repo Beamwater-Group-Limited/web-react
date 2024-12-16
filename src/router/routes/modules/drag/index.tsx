@@ -5,6 +5,7 @@ const DragModule: MenuItemType = {
   name: '拖拽页',
   path: 'drag',
   icon: <HomeOutlined />,
+  hidden: true,
   element: <DragPage />
 }
 

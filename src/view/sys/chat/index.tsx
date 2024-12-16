@@ -23,7 +23,7 @@ const suggestions = [
   }
 ]
 
-const Page1 = () => {
+const ChatPage = () => {
   const [bubbleList, setBubbleList] = useState<BubbleItemType[]>([]) // 对话框
   const [loading, setLoading] = useState<boolean>(false) //加载效果
   const [currentFlow, setCurrentFlow] = useState<FlowItemType>() //当前流程
@@ -136,4 +136,4 @@ const Page1 = () => {
   )
 }
 
-export default Page1
+export default ChatPage
