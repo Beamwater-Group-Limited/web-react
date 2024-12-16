@@ -1,94 +1,131 @@
-import { CloudUploadOutlined, LinkOutlined, UserOutlined } from '@ant-design/icons'
-import { Bubble, Sender } from '@ant-design/x'
-import { default as SearchDrawerComp } from './components/search-drawer'
-import { Button, Flex, message, theme, Typography } from 'antd'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-const Page1 = () => {
-  const [searchVisible, setSearchVisible] = useState(false)
-  const navigate = useNavigate()
-  const toPage1 = () => {
-    navigate('/page1')
-  }
-  const { token } = theme.useToken()
-  const [open, setOpen] = useState(false)
+import { BubbleListComp, InputBoxComp, FlowSelectorComp, MonitorBoxComp } from './components'
+import { Suggestion } from '@ant-design/x'
+import { useRef, useState } from 'react'
+import { BubbleItemType } from './types'
+import { FlowItemType, runApi } from '@/api'
+import { UploadFile } from 'antd'
+import { getRandomString } from '@lichang666/utils'
+import { InputBoxCompRef } from './components/input-box'
 
-  const SearchHeader = () => {
-    return (
-      <Sender.Header title="Upload Sample" open={open} onOpenChange={setOpen}>
-        <Flex vertical align="center" gap="small" style={{ marginBlock: token.paddingLG }}>
-          <CloudUploadOutlined style={{ fontSize: '4em' }} />
-          <Typography.Title level={5} style={{ margin: 0 }}>
-            Drag file here (just demo)
-          </Typography.Title>
-          <Typography.Text type="secondary">
-            Support pdf, doc, xlsx, ppt, txt, image file types
-          </Typography.Text>
-          <Button
-            onClick={() => {
-              message.info('Mock select file')
-            }}
-          >
-            Select File
-          </Button>
-        </Flex>
-      </Sender.Header>
-    )
+const suggestions = [
+  { label: 'Write a report', value: 'report' },
+  { label: 'Draw a picture', value: 'draw' },
+  {
+    label: 'Check some knowledge',
+    value: 'knowledge',
+    extra: 'Extra Info'
+  }
+]
+
+const Page1 = () => {
+  const [bubbleList, setBubbleList] = useState<BubbleItemType[]>([]) // 对话框
+  const [loading, setLoading] = useState<boolean>(false) //加载效果
+  const [currentFlow, setCurrentFlow] = useState<FlowItemType>() //当前流程
+  const [fileList, setFileList] = useState<UploadFile[]>([]) //文件列表
+
+  const inputBoxRef = useRef<InputBoxCompRef>(null)
+
+  /** 点击提交 */
+  const submitHandler = () => {
+    if (!inputBoxRef.current) return
+    const { inputValue, setInputValue } = inputBoxRef.current
+    if (fileList.length > 0) {
+      setLoading(true)
+      let file = fileList[0]
+      const reader = new FileReader()
+      reader.onload = async (event) => {
+        if (!event.target || !event.target.result) return
+        let src = event.target.result as string
+        const fileBase64 = src.split(',')[1]
+        if (inputValue === '/' || !currentFlow) return
+        setBubbleList((pre) => [
+          ...pre,
+          {
+            time: new Date().getTime().toString(),
+            content: `<img src="${src}" alt="alt text" style="width: 200px; height: 200px;" />`,
+            role: 'user'
+          }
+        ])
+        runApi({
+          image_data: fileBase64,
+          ...currentFlow
+        }).then(({ info, data }) => {
+          setLoading(false)
+          if (info.status === 200) {
+            setLoading(false)
+            setInputValue('')
+            setFileList([])
+            inputBoxRef.current && inputBoxRef.current.setOpen(false)
+            setBubbleList((pre) => [
+              ...pre,
+              {
+                time: new Date().getTime().toString(),
+                content: data.value,
+                role: 'ai'
+              }
+            ])
+          }
+        })
+      }
+      reader.readAsDataURL(file as unknown as Blob)
+    } else {
+      if (inputValue === '' || inputValue === '/' || !currentFlow) return
+      setBubbleList((pre) => {
+        return [
+          ...pre,
+          {
+            time: new Date().getTime().toString(),
+            content: inputValue,
+            role: 'user'
+          }
+        ]
+      })
+      setInputValue('')
+    }
+  }
+
+  /** 截屏后保存图片 */
+  const captureHandler = (file: File) => {
+    let f = file as unknown as UploadFile
+    f.uid = getRandomString(12)
+    setFileList((pre) => {
+      return [...pre, f]
+    })
+    inputBoxRef.current && inputBoxRef.current.setOpen(true)
   }
 
   return (
-    <>
-      <div className="w-full relative h-full flex flex-col items-center justify-center gap-12">
-        {/* 预览按钮 */}
-        <Button onClick={toPage1} className="absolute top-0 right-0" type="primary">
-          使用页面1
-        </Button>
-        {/* 输入框 */}
-        <div className="w-[50%]" onClick={() => setSearchVisible(true)}>
-          <Sender
-            prefix={
-              <Button
-                type="text"
-                icon={<LinkOutlined />}
-                onClick={() => {
-                  setOpen(!open)
-                }}
+    <div className="relative bg-white w-full h-full">
+      <MonitorBoxComp onCapture={captureHandler} />
+      {/* 流程选择器 */}
+      <FlowSelectorComp currentFlow={currentFlow} setCurrentFlow={setCurrentFlow} />
+      {/* 对话框 */}
+      <BubbleListComp bubbleList={bubbleList} setBubbleList={setBubbleList} />
+      {/* 输入框 */}
+      <div className="absolute bottom-[1vh] left-[25vw] w-[50vw] z-30 bg-white">
+        <Suggestion
+          items={suggestions}
+          onSelect={(itemVal) => {
+            inputBoxRef.current?.setInputValue(`[${itemVal}]:`)
+          }}
+        >
+          {({ onTrigger, onKeyDown }) => {
+            return (
+              <InputBoxComp
+                ref={inputBoxRef}
+                fileList={fileList}
+                setFileList={setFileList}
+                loading={loading}
+                onKeyDown={onKeyDown}
+                setLoading={setLoading}
+                submitHandler={submitHandler}
+                onTrigger={onTrigger}
               />
-            }
-            header={<SearchHeader />}
-            disabled
-            allowSpeech
-            placeholder="输入您想要搜索的内容"
-          />
-        </div>
-        {/* 对话框 */}
-        <div className="w-[50%] h-[80%] bg-slate-200 rounded p-4">
-          <Flex gap="middle" vertical>
-            <Bubble
-              placement="start"
-              content="Good morning, how are you?"
-              avatar={{
-                icon: <UserOutlined />,
-                style: { color: '#f56a00', backgroundColor: '#fde3cf' }
-              }}
-            />
-            <Bubble
-              placement="end"
-              content="Hi, good morning, I'm fine!"
-              avatar={{
-                icon: <UserOutlined />,
-                style: {
-                  color: '#fff',
-                  backgroundColor: '#87d068'
-                }
-              }}
-            />
-          </Flex>
-        </div>
+            )
+          }}
+        </Suggestion>
       </div>
-      {/* 配置框 */}
-      <SearchDrawerComp visible={searchVisible} close={() => setSearchVisible(false)} />
-    </>
+    </div>
   )
 }
 
