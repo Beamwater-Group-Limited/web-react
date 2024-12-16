@@ -40,7 +40,7 @@ const ImgPage = () => {
 
   return (
     <div className="relative flex flex-col gap-4 items-center">
-      <RobotComp className="top-4 left-4" />
+      <RobotComp className="top-4 right-4" />
       {/* 处理部分 */}
       <div className="h-[60vh] w-[60vw] border-[1px] border-zinc-300 rounded bg-slate-50 grid grid-cols-2">
         <div className="border-r-[1px] border-zinc-300 flex justify-center items-center p-4">
