@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 const FlowSelector = (props: {
   currentFlow: FlowItemType | undefined
   setCurrentFlow: React.Dispatch<React.SetStateAction<FlowItemType | undefined>>
+  className?: string
 }) => {
   const [options, setOptions] = useState<
     {
@@ -45,7 +46,7 @@ const FlowSelector = (props: {
     initOptions()
   }, [])
   return (
-    <div className="absolute top-[1vh] left-[25vw] w-[50vw]">
+    <div className={props.className}>
       <Dropdown
         menu={{
           items: options,

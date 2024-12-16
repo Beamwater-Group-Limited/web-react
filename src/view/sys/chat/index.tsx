@@ -1,7 +1,7 @@
 import {
   BubbleListComp,
-  InputBoxComp
-  // FlowSelectorComp
+  InputBoxComp,
+  FlowSelectorComp
   // MonitorBoxComp
 } from './components'
 import { Suggestion } from '@ant-design/x'
@@ -105,7 +105,11 @@ const ChatPage = () => {
       <RobotComp className="top-6 left-6" />
       {/* <MonitorBoxComp onCapture={captureHandler} /> */}
       {/* 流程选择器 */}
-      {/* <FlowSelectorComp currentFlow={currentFlow} setCurrentFlow={setCurrentFlow} /> */}
+      <FlowSelectorComp
+        className="absolute top-[1vh] left-[25vw] w-[50vw]"
+        currentFlow={currentFlow}
+        setCurrentFlow={setCurrentFlow}
+      />
       {/* 对话框 */}
       <BubbleListComp bubbleList={bubbleList} setBubbleList={setBubbleList} />
       {/* 输入框 */}
