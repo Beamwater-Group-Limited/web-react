@@ -7,7 +7,7 @@ const LayoutDom = () => {
   const location = useLocation()
   useEffect(() => {
     if (location.pathname === '/') {
-      navigate('/settings/page1')
+      navigate('/page1')
     }
   }, [location.pathname])
   const { Header, Content } = Layout

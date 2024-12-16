@@ -1,14 +1,8 @@
 import { useRoutes } from 'react-router-dom'
 import LayoutDom from '@/view/settings/layout'
-// import Page1 from '@/view/page1'
 import { AppRoutes } from './modules'
 
 export const routes: MenuItemType[] = [
-  // {
-  //   path: '/page1',
-  //   name: '页面1',
-  //   element: <Page1 />
-  // },
   {
     path: '/',
     name: '欢迎',
