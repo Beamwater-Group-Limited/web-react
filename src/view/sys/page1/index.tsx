@@ -1,11 +1,17 @@
-import { BubbleListComp, InputBoxComp, FlowSelectorComp, MonitorBoxComp } from './components'
+import {
+  BubbleListComp,
+  InputBoxComp
+  // FlowSelectorComp
+  // MonitorBoxComp
+} from './components'
 import { Suggestion } from '@ant-design/x'
 import { useRef, useState } from 'react'
 import { BubbleItemType } from './types'
 import { FlowItemType, runApi } from '@/api'
 import { UploadFile } from 'antd'
-import { getRandomString } from '@lichang666/utils'
+// import { getRandomString } from '@lichang666/utils'
 import { InputBoxCompRef } from './components/input-box'
+import RobotComp from '@/components/robot'
 
 const suggestions = [
   { label: 'Write a report', value: 'report' },
@@ -85,20 +91,21 @@ const Page1 = () => {
   }
 
   /** 截屏后保存图片 */
-  const captureHandler = (file: File) => {
-    let f = file as unknown as UploadFile
-    f.uid = getRandomString(12)
-    setFileList((pre) => {
-      return [...pre, f]
-    })
-    inputBoxRef.current && inputBoxRef.current.setOpen(true)
-  }
+  // const captureHandler = (file: File) => {
+  //   let f = file as unknown as UploadFile
+  //   f.uid = getRandomString(12)
+  //   setFileList((pre) => {
+  //     return [...pre, f]
+  //   })
+  //   inputBoxRef.current && inputBoxRef.current.setOpen(true)
+  // }
 
   return (
     <div className="relative bg-white w-full h-full">
+      <RobotComp className="top-6 left-6" />
       {/* <MonitorBoxComp onCapture={captureHandler} /> */}
       {/* 流程选择器 */}
-      <FlowSelectorComp currentFlow={currentFlow} setCurrentFlow={setCurrentFlow} />
+      {/* <FlowSelectorComp currentFlow={currentFlow} setCurrentFlow={setCurrentFlow} /> */}
       {/* 对话框 */}
       <BubbleListComp bubbleList={bubbleList} setBubbleList={setBubbleList} />
       {/* 输入框 */}

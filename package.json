@@ -39,6 +39,7 @@
     "eslint-plugin-react": "^7.34.1",
     "globals": "^15.3.0",
     "husky": "^8.0.0",
+    "less": "^4.2.1",
     "lint-staged": "^15.2.2",
     "postcss": "^8.4.38",
     "prettier": "3.2.5",
