@@ -12,7 +12,7 @@ Object.keys(modules).forEach((key) => {
     menu[routeItem.order - 1] = {
       name: routeItem.name,
       path: routeItem.path,
-      icon: routeItem?.icon,
+      // icon: routeItem?.icon,
       element: routeItem.element
     }
   }
