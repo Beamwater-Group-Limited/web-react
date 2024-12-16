@@ -96,7 +96,7 @@ const Page1 = () => {
 
   return (
     <div className="relative bg-white w-full h-full">
-      <MonitorBoxComp onCapture={captureHandler} />
+      {/* <MonitorBoxComp onCapture={captureHandler} /> */}
       {/* 流程选择器 */}
       <FlowSelectorComp currentFlow={currentFlow} setCurrentFlow={setCurrentFlow} />
       {/* 对话框 */}
