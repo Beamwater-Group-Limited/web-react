@@ -36,9 +36,9 @@ const SenderHeaderComp = (props: {
       {props.fileList.length > 0 && (
         <Spin spinning={props.loading}>
           <div className="max-h-[90px] overflow-y-auto flex flex-wrap gap-1">
-            {props.fileList.map((item, index) => {
+            {props.fileList.map((item) => {
               return (
-                <div key={index} className="relative group p-1">
+                <div key={item.name} className="relative group p-1">
                   <CloseCircleOutlined
                     onClick={() => removeFile(item)}
                     className="absolute right-[-3px] top-[-3px] z-10 cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity"
