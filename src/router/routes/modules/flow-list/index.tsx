@@ -1,4 +1,4 @@
-import FlowListPage from '@/view/settings/flow-list'
+import FlowListPage from '@/view/sys/flow-list'
 import { HomeOutlined } from '@ant-design/icons'
 const FlowListModule: MenuItemType = {
   order: 3,

@@ -1,5 +1,5 @@
 import { useRoutes } from 'react-router-dom'
-import LayoutDom from '@/view/settings/layout'
+import LayoutDom from '@/view/sys/layout'
 import { AppRoutes } from './modules'
 
 export const routes: MenuItemType[] = [

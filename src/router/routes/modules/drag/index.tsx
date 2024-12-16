@@ -1,4 +1,4 @@
-import DragPage from '@/view/settings/drag'
+import DragPage from '@/view/sys/drag'
 import { HomeOutlined } from '@ant-design/icons'
 const DragModule: MenuItemType = {
   order: 2,

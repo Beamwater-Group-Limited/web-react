@@ -1,4 +1,4 @@
-import Page1 from '@/view/settings/page1/index'
+import Page1 from '@/view/sys/page1/index'
 import { HomeOutlined } from '@ant-design/icons'
 const Page1Module: MenuItemType = {
   order: 1,
