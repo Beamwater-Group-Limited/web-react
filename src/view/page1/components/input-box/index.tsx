@@ -15,6 +15,8 @@ import { OpenAIOutlined } from '@ant-design/icons'
 
 export type InputBoxCompRef = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  inputValue: string
+  setInputValue: React.Dispatch<React.SetStateAction<string>>
 }
 
 /** 输入框组件 */
@@ -22,22 +24,23 @@ const InputBoxComp = forwardRef(
   (
     props: {
       loading: boolean
-      inputValue: string
       fileList: UploadFile[]
       setFileList: React.Dispatch<React.SetStateAction<UploadFile<any>[]>>
       onKeyDown: KeyboardEventHandler<any>
       setLoading: React.Dispatch<React.SetStateAction<boolean>>
       submitHandler: () => void
-      setInputValue: React.Dispatch<React.SetStateAction<string>>
       onTrigger: (info?: any) => void
     },
     ref: Ref<InputBoxCompRef>
   ) => {
     const [open, setOpen] = useState(false) //头部是否打开
+    const [inputValue, setInputValue] = useState('') // 输入框
 
     /** 暴露子组件方法 */
     useImperativeHandle(ref, () => ({
-      setOpen
+      setOpen,
+      inputValue,
+      setInputValue
     }))
 
     /** 输入框值变化 */
@@ -47,7 +50,7 @@ const InputBoxComp = forwardRef(
       } else if (!value) {
         props.onTrigger(false)
       }
-      props.setInputValue(value)
+      setInputValue(value)
     }
 
     /** 选择了文件 */
@@ -98,7 +101,7 @@ const InputBoxComp = forwardRef(
           />
         }
         prefix={<PrefixComp fileList={props.fileList} fileChange={fileChangeHandler} />}
-        value={props.inputValue}
+        value={inputValue}
         onChange={inputValueChangeHandler}
         disabled={props.loading}
         allowSpeech

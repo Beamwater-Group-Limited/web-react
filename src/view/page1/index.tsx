@@ -19,7 +19,6 @@ const suggestions = [
 
 const Page1 = () => {
   const [bubbleList, setBubbleList] = useState<BubbleItemType[]>([]) // 对话框
-  const [inputValue, setInputValue] = useState('') // 输入框
   const [loading, setLoading] = useState<boolean>(false) //加载效果
   const [currentFlow, setCurrentFlow] = useState<FlowItemType>() //当前流程
   const [fileList, setFileList] = useState<UploadFile[]>([]) //文件列表
@@ -28,6 +27,8 @@ const Page1 = () => {
 
   /** 点击提交 */
   const submitHandler = () => {
+    if (!inputBoxRef.current) return
+    const { inputValue, setInputValue } = inputBoxRef.current
     if (fileList.length > 0) {
       setLoading(true)
       let file = fileList[0]
@@ -105,7 +106,7 @@ const Page1 = () => {
         <Suggestion
           items={suggestions}
           onSelect={(itemVal) => {
-            setInputValue(`[${itemVal}]:`)
+            inputBoxRef.current?.setInputValue(`[${itemVal}]:`)
           }}
         >
           {({ onTrigger, onKeyDown }) => {
@@ -115,11 +116,9 @@ const Page1 = () => {
                 fileList={fileList}
                 setFileList={setFileList}
                 loading={loading}
-                inputValue={inputValue}
                 onKeyDown={onKeyDown}
                 setLoading={setLoading}
                 submitHandler={submitHandler}
-                setInputValue={setInputValue}
                 onTrigger={onTrigger}
               />
             )
