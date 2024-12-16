@@ -8,11 +8,12 @@ Object.keys(modules).forEach((key) => {
   const mod = (modules as any)[key].default || {}
   const modList = Array.isArray(mod) ? [...mod] : [mod]
   const routeItem = modList[0] as MenuItemType
-  if (routeItem.order && !routeItem.hidden) {
+  if (routeItem.order) {
     menu[routeItem.order - 1] = {
       name: routeItem.name,
       path: routeItem.path,
       // icon: routeItem?.icon,
+      hidden: routeItem?.hidden,
       element: routeItem.element
     }
   }
