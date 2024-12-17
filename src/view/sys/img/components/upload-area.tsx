@@ -18,7 +18,7 @@ const UploadArea = (props: {
     }
   }
   return (
-    <div className="w-full h-[20%] relative border-t-[1px] border-zinc-300 flex">
+    <div className="w-full h-[14vh] relative border-t-[1px] border-zinc-300 flex">
       <div className="w-[80%] h-full flex flex-col justify-center items-center bg-slate-200 gap-2">
         <InboxOutlined style={{ fontSize: '2rem', color: '#1890ff' }} />
         <p className="text-base">点击或拖拽文件至此区域上传</p>

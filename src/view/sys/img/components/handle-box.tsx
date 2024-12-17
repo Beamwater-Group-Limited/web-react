@@ -26,7 +26,7 @@ const HandleBox = (props: {
   ] //下拉框
 
   return (
-    <div className="border-t-[1px] h-[16vh] border-zinc-300 flex flex-col gap-4 p-4">
+    <div className="border-t-[1px] h-[14vh] border-zinc-300 flex flex-col gap-4 p-4">
       {/* 用户选择 */}
       <div className="flex items-center gap-4 border-r-[1px] rounded">
         <span>输出</span>

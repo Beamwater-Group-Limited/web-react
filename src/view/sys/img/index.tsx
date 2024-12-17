@@ -35,11 +35,12 @@ const ImgPage = () => {
   return (
     <div className="relative w-full h-full flex flex-col gap-4 items-center">
       <RobotComp className="top-4 right-4" />
+      <h1 className="text-2xl font-bold">MLP实现手写字识别</h1>
       {/* 处理部分 */}
-      <div className="h-[80vh] w-[80vw] border-[1px] border-zinc-300 rounded bg-slate-50 grid grid-cols-2">
+      <div className="h-[70vh] w-[80vw] border-[1px] border-zinc-300 rounded bg-slate-50 grid grid-cols-2">
         <div className="h-full border-r-[1px] border-zinc-300">
           {/* 图片展示区域 */}
-          <div className="w-full h-[64vh] overflow-auto p-4 flex items-center justify-center">
+          <div className="w-full h-[56vh] overflow-auto p-4 flex items-center justify-center">
             <ImgShowComp file={file} />
           </div>
           {/* 上传区域 */}
@@ -54,7 +55,7 @@ const ImgPage = () => {
         <div className="h-full">
           <div className="text-xl text-zinc-700 tracking-[2px] h-[80%]">
             {/* 处理结果的图片 */}
-            <div className="h-[44.8vh] overflow-auto border-b-[1px] flex items-center justify-center">
+            <div className="h-[33.6vh] overflow-auto border-b-[1px] flex items-center justify-center">
               <ImgShowComp file={handledImg} />
             </div>
             {/* 处理结果的文字 */}
