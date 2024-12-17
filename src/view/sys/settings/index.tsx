@@ -32,6 +32,11 @@ const SettingsPage = () => {
       key: '1',
       label: '图片组件配置',
       children: <ImgSettings options={options} />
+    },
+    {
+      key: '2',
+      label: '聊天语音配置',
+      children: <ImgSettings options={options} />
     }
   ]
 

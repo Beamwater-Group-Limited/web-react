@@ -30,9 +30,7 @@ const ImgSettings = (props: {
           {/* 输入 */}
           <Form.Item name="input" label="输入" rules={[{ required: true }]}>
             <Radio.Group>
-              <Radio value={'1'}>文字</Radio>
               <Radio value={'2'}>图片</Radio>
-              <Radio value={'3'}>声音</Radio>
             </Radio.Group>
           </Form.Item>
           {/* 输出 */}
@@ -42,6 +40,7 @@ const ImgSettings = (props: {
               <Checkbox value={'2'}>图片</Checkbox>
               <Checkbox value={'3'}>声音</Checkbox>
               <Checkbox value={'4'}>文本文件</Checkbox>
+              <Checkbox value={'5'}>流</Checkbox>
             </Checkbox.Group>
           </Form.Item>
         </Col>
