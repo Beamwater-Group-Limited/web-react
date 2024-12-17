@@ -1,9 +1,7 @@
-import { SoundOutlined } from '@ant-design/icons'
-import { Button, message } from 'antd'
 import ResImg from '@/assets/images/res.jpg'
 import { useState } from 'react'
 import RobotComp from '@/components/robot'
-import { StatusTag, ImgShowComp, UploadArea } from './components'
+import { StatusTag, ImgShowComp, UploadArea, HandleBox } from './components'
 
 /** 图片页面 */
 const ImgPage = () => {
@@ -21,7 +19,7 @@ const ImgPage = () => {
   }
 
   /** 点击处理 */
-  const clickHandle = () => {
+  const onHandle = () => {
     if (file) {
       setStatus('processing')
       setLoading(true)
@@ -31,17 +29,6 @@ const ImgPage = () => {
         setStatus('success')
         setResultTxt('这是处理后的文本')
       }, 2000)
-    }
-  }
-
-  /** 读文字 */
-  const soundHandler = () => {
-    if (!window.SpeechSynthesisUtterance) {
-      return message.warning('当前浏览器不支持语音功能')
-    }
-    if (resultTxt) {
-      const utterance = new SpeechSynthesisUtterance(resultTxt)
-      window.speechSynthesis.speak(utterance)
     }
   }
 
@@ -72,26 +59,14 @@ const ImgPage = () => {
               <div className="w-[70%] p-2">{resultTxt}</div>
             </div>
           </div>
-          <div className="border-t-[1px] h-[16vh] border-zinc-300 flex justify-center items-center gap-4">
-            <Button
-              type="primary"
-              disabled={!file}
-              size="large"
-              onClick={clickHandle}
-              loading={loading}
-            >
-              处理
-            </Button>
-            <Button
-              type="primary"
-              icon={<SoundOutlined />}
-              size="large"
-              onClick={soundHandler}
-              disabled={status !== 'success'}
-            >
-              朗读
-            </Button>
-          </div>
+          {/* 处理框 */}
+          <HandleBox
+            status={status}
+            file={file}
+            loading={loading}
+            resultTxt={resultTxt}
+            onHandle={onHandle}
+          />
         </div>
       </div>
     </div>
