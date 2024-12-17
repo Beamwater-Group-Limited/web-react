@@ -1,7 +1,8 @@
-import { Collapse, CollapseProps } from 'antd'
+import { Button, Collapse, CollapseProps } from 'antd'
 import { ImgSettings } from './components'
 import { FlowItemType, getAllFlowApi } from '@/api'
 import { useEffect, useState } from 'react'
+import { ArrowLeftOutlined } from '@ant-design/icons'
 /** 配置页面 */
 const SettingsPage = () => {
   const [_allFlows, setAllFlows] = useState<FlowItemType[]>([]) //所有流程
@@ -40,6 +41,11 @@ const SettingsPage = () => {
 
   return (
     <div>
+      <div className="flex items-center justify-between mb-4">
+        <Button color="default" icon={<ArrowLeftOutlined />} variant="text">
+          返回
+        </Button>
+      </div>
       <Collapse items={items} defaultActiveKey={['1']} />
     </div>
   )
