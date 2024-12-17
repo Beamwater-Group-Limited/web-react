@@ -55,11 +55,11 @@ const ImgPage = () => {
         <div className="h-full">
           <div className="text-xl text-zinc-700 tracking-[2px] h-[80%]">
             {/* 处理结果的图片 */}
-            <div className="h-[33.6vh] overflow-auto border-b-[1px] flex items-center justify-center">
+            <div className="h-[40vh] overflow-auto border-b-[1px] flex items-center justify-center">
               <ImgShowComp file={handledImg} />
             </div>
             {/* 处理结果的文字 */}
-            <div className="h-[19.2vh] w-full flex">
+            <div className="h-[16vh] w-full flex">
               <div className="w-[30%] border-r-[1px] flex items-center justify-center">
                 <StatusTag status={status} />
               </div>
