@@ -1,8 +1,8 @@
 import ResImg from '@/assets/images/res.jpg'
 import RobotComp from '@/components/robot'
 import { Image } from 'antd'
-import { default as ImgHandleComp } from './img-handle-comp'
-import { ImgShowComp } from './components'
+import { ImgLayout, UploadArea } from './components'
+import { ImgShowComp } from './components/img-layout/components'
 import { useRef, useState } from 'react'
 import { InboxOutlined } from '@ant-design/icons'
 
@@ -19,7 +19,7 @@ const ImgPage = () => {
     }
   }
   return (
-    <div className="relative bg-white w-full h-full flex flex-col gap-4 items-center">
+    <div className="relative bg-white w-full flex flex-col gap-4 items-center">
       <RobotComp className="top-4 right-4" />
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-bold">基于多层感知机（MLP）的手写体字符识别</h1>
@@ -30,10 +30,18 @@ const ImgPage = () => {
         算法对手写体字符进行识别。MLP是一种经典的神经网络模型，具有输入层、隐藏层和输出层结构。它通过将输入图像数据展平为一维向量，然后利用全连接神经网络进行训练与预测。
       </div>
       {/* 处理部分 */}
-      <ImgHandleComp
+      <ImgLayout
         file={file}
         ref={imgHandleRef}
-        componentName="图片处理控件1"
+        componentName="图片处理控件"
+        showChildren={<ImgShowComp file={file} />}
+        optionsChildren={<UploadArea onChange={fileChangeHandler} />}
+      />
+      {/* 手写部分 */}
+      <ImgLayout
+        file={file}
+        ref={imgHandleRef}
+        componentName="手写处理控件"
         showChildren={<ImgShowComp file={file} />}
         optionsChildren={
           <div className="w-[80%] h-full flex flex-col justify-center items-center bg-slate-200 gap-2">
