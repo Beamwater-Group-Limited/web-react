@@ -49,30 +49,30 @@ const ImgPage = () => {
     <div className="relative w-full h-full flex flex-col gap-4 items-center">
       <RobotComp className="top-4 right-4" />
       {/* 处理部分 */}
-      <div className="h-[90%] w-[80%] border-[1px] border-zinc-300 rounded bg-slate-50 grid grid-cols-2">
+      <div className="h-[80vh] w-[80vw] border-[1px] border-zinc-300 rounded bg-slate-50 grid grid-cols-2">
         <div className="h-full border-r-[1px] border-zinc-300">
           {/* 图片展示区域 */}
-          <div className="w-full h-[80%] overflow-auto p-4 flex items-center justify-center">
+          <div className="w-full h-[64vh] overflow-auto p-4 flex items-center justify-center">
             <ImgShowComp file={file} />
           </div>
           {/* 上传区域 */}
           <UploadArea reset={resetStatus} setFile={setFile} />
         </div>
-        <div className="h-full overflow-auto">
+        <div className="h-full">
           <div className="text-xl text-zinc-700 tracking-[2px] h-[80%]">
             {/* 处理结果的图片 */}
-            <div className="h-[70%] border-b-[1px] flex items-center justify-center">
+            <div className="h-[44.8vh] overflow-auto border-b-[1px] flex items-center justify-center">
               <ImgShowComp file={handledImg} />
             </div>
             {/* 处理结果的文字 */}
-            <div className="h-[30%] w-full flex">
+            <div className="h-[19.2vh] w-full flex">
               <div className="w-[30%] border-r-[1px] flex items-center justify-center">
                 <StatusTag status={status} />
               </div>
               <div className="w-[70%] p-2">{resultTxt}</div>
             </div>
           </div>
-          <div className="border-t-[1px] h-[20%] border-zinc-300 flex justify-center items-center gap-4">
+          <div className="border-t-[1px] h-[16vh] border-zinc-300 flex justify-center items-center gap-4">
             <Button
               type="primary"
               disabled={!file}
