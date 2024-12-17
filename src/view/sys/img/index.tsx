@@ -2,7 +2,8 @@ import ResImg from '@/assets/images/res.jpg'
 import { useState } from 'react'
 import RobotComp from '@/components/robot'
 import { StatusTag, ImgShowComp, UploadArea, HandleBox } from './components'
-import { Watermark } from 'antd'
+import { Popover, Watermark } from 'antd'
+import { QuestionCircleFilled } from '@ant-design/icons'
 
 /** 图片页面 */
 const ImgPage = () => {
@@ -33,11 +34,20 @@ const ImgPage = () => {
     }
   }
 
+  const content = () => {
+    return <img src={ResImg} />
+  }
+
   return (
     <Watermark content="图片处理控件" zIndex={1} className="w-full h-full">
       <div className="relative bg-white w-full h-full flex flex-col gap-4 items-center">
         <RobotComp className="top-4 right-4 z-10" />
-        <h1 className="text-2xl font-bold">基于多层感知机（MLP）的手写体字符识别</h1>
+        <div className="flex items-center gap-4">
+          <h1 className="text-2xl font-bold">基于多层感知机（MLP）的手写体字符识别</h1>
+          <Popover content={content}>
+            <QuestionCircleFilled />
+          </Popover>
+        </div>
         <div className="w-[50vw] text-base tracking-[2px] indent-8">
           多层感知机（MLP）
           算法对手写体字符进行识别。MLP是一种经典的神经网络模型，具有输入层、隐藏层和输出层结构。它通过将输入图像数据展平为一维向量，然后利用全连接神经网络进行训练与预测。
