@@ -2,8 +2,7 @@ import ResImg from '@/assets/images/res.jpg'
 import { useState } from 'react'
 import RobotComp from '@/components/robot'
 import { StatusTag, ImgShowComp, UploadArea, HandleBox } from './components'
-import { Popover, Watermark } from 'antd'
-import { QuestionCircleFilled } from '@ant-design/icons'
+import { Image, Watermark } from 'antd'
 import { imgHandleApi } from '@/api'
 
 /** 图片页面 */
@@ -13,7 +12,7 @@ const ImgPage = () => {
   const [loading, setLoading] = useState(false) //loading
   const [resultTxt, setResultTxt] = useState('') //识别结果
   const [status, setStatus] = useState<'processing' | 'error' | 'success' | 'default'>('default')
-  const [output, setOutput] = useState<string[]>([]) //输出数组
+  const [output, setOutput] = useState<string[]>(['1']) //输出数组
   const [soundUrl, setSoundUrl] = useState('') //音频url
 
   const createSound = (base64String: string) => {
@@ -85,21 +84,19 @@ const ImgPage = () => {
   }
 
   return (
-    <Watermark content="图片处理控件" zIndex={1} className="w-full h-full">
-      <div className="relative bg-white w-full h-full flex flex-col gap-4 items-center">
-        <RobotComp className="top-4 right-4 z-10" />
-        <div className="flex items-center gap-4">
-          <h1 className="text-2xl font-bold">基于多层感知机（MLP）的手写体字符识别</h1>
-          <Popover content={<img src={ResImg} width={500} />}>
-            <QuestionCircleFilled />
-          </Popover>
-        </div>
-        <div className="w-[50vw] text-base tracking-[2px] indent-8">
-          多层感知机（MLP）
-          算法对手写体字符进行识别。MLP是一种经典的神经网络模型，具有输入层、隐藏层和输出层结构。它通过将输入图像数据展平为一维向量，然后利用全连接神经网络进行训练与预测。
-        </div>
-        {/* 处理部分 */}
-        <div className="h-[70vh] w-[80vw] border-[1px] border-zinc-300 rounded z-10 bg-slate-50 grid grid-cols-2">
+    <div className="relative bg-white w-full h-full flex flex-col gap-4 items-center">
+      <RobotComp className="top-4 right-4" />
+      <div className="flex items-center gap-4">
+        <h1 className="text-2xl font-bold">基于多层感知机（MLP）的手写体字符识别</h1>
+        <Image src={ResImg} width={40} height={40} />
+      </div>
+      <div className="w-[50vw] text-base tracking-[2px] indent-8">
+        多层感知机（MLP）
+        算法对手写体字符进行识别。MLP是一种经典的神经网络模型，具有输入层、隐藏层和输出层结构。它通过将输入图像数据展平为一维向量，然后利用全连接神经网络进行训练与预测。
+      </div>
+      {/* 处理部分 */}
+      <div className="h-[70vh] w-[80vw] border-[1px] border-zinc-300 rounded bg-slate-50">
+        <Watermark content="图片处理控件1" className="w-full h-full grid grid-cols-2">
           <div className="h-full border-r-[1px] border-zinc-300">
             {/* 图片展示区域 */}
             <div className="w-full h-[56vh] overflow-auto p-4 flex items-center justify-center">
@@ -138,9 +135,9 @@ const ImgPage = () => {
               resultTxt={resultTxt}
             />
           </div>
-        </div>
+        </Watermark>
       </div>
-    </Watermark>
+    </div>
   )
 }
 

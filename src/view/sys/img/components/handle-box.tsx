@@ -24,9 +24,11 @@ const HandleBox = (props: {
   return (
     <div className="border-t-[1px] h-[14vh] border-zinc-300 flex flex-col gap-4 p-4">
       {/* 用户选择 */}
-      <div className="flex items-center gap-4 border-r-[1px] rounded">
-        <span>输出</span>
+      <div className="w-full flex items-center gap-4 border-r-[1px] rounded">
+        <div>输出</div>
         <Checkbox.Group
+          disabled={props.status !== 'default'}
+          style={{ width: '100%' }}
           options={outputOptions}
           value={props.output}
           defaultValue={['Apple']}
@@ -35,15 +37,17 @@ const HandleBox = (props: {
       </div>
       {/* 按钮组 */}
       <div className="flex items-center justify-center gap-4">
-        <Button
-          type="primary"
-          icon={<SoundOutlined />}
-          size="large"
-          onClick={soundHandler}
-          disabled={props.status !== 'success' || !props.soundUrl}
-        >
-          朗读
-        </Button>
+        {props.output.includes('3') && (
+          <Button
+            type="primary"
+            icon={<SoundOutlined />}
+            size="large"
+            onClick={soundHandler}
+            disabled={props.status !== 'success' || !props.soundUrl || !props.output.includes('3')}
+          >
+            朗读
+          </Button>
+        )}
       </div>
     </div>
   )
