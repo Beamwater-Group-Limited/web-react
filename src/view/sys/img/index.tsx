@@ -1,8 +1,9 @@
-import { InboxOutlined, SoundOutlined } from '@ant-design/icons'
-import { Image, Button, Tag, message } from 'antd'
+import { SoundOutlined } from '@ant-design/icons'
+import { Button, message } from 'antd'
 import ResImg from '@/assets/images/res.jpg'
 import { useState } from 'react'
 import RobotComp from '@/components/robot'
+import { StatusTag, ImgShowComp, UploadArea } from './components'
 
 /** 图片页面 */
 const ImgPage = () => {
@@ -12,70 +13,11 @@ const ImgPage = () => {
   const [resultTxt, setResultTxt] = useState('') //识别结果
   const [status, setStatus] = useState<'processing' | 'error' | 'success' | 'default'>('default')
 
-  //图片展示组件
-  const ImgShowComp = (props: { file: File | null | string }) => {
-    const [visible, setVisible] = useState(false)
-    if (!props.file) {
-      return <div></div>
-    } else if (typeof props.file !== 'string') {
-      let url = URL.createObjectURL(props.file)
-      return (
-        <>
-          <img
-            className="cursor-pointer rounded"
-            onClick={() => {
-              setVisible(true)
-            }}
-            src={url}
-            style={{ maxWidth: '80%', maxHeight: '80%', objectFit: 'contain' }}
-          />
-          <Image
-            preview={{
-              visible,
-              onVisibleChange: (value) => {
-                setVisible(value)
-              }
-            }}
-            style={{ display: 'none' }}
-            src={url}
-          />
-        </>
-      )
-    } else {
-      return (
-        <>
-          <img
-            className="cursor-pointer rounded"
-            onClick={() => {
-              setVisible(true)
-            }}
-            src={props.file}
-            style={{ maxWidth: '80%', maxHeight: '80%', objectFit: 'contain' }}
-          />
-          <Image
-            preview={{
-              visible,
-              onVisibleChange: (value) => {
-                setVisible(value)
-              }
-            }}
-            style={{ display: 'none' }}
-            src={props.file}
-          />
-        </>
-      )
-    }
-  }
-
-  /** 文件改变 */
-  const fileChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let files = e.target.files
-    if (files && files.length > 0) {
-      setFile(files[0])
-      setStatus('default')
-      setHandledImg('')
-      setResultTxt('')
-    }
+  /** 重置状态 */
+  const resetStatus = () => {
+    setStatus('default')
+    setHandledImg('')
+    setResultTxt('')
   }
 
   /** 点击处理 */
@@ -87,7 +29,7 @@ const ImgPage = () => {
         setHandledImg(ResImg)
         setLoading(false)
         setStatus('success')
-        setResultTxt('这是识别后的文本')
+        setResultTxt('这是处理后的文本')
       }, 2000)
     }
   }
@@ -114,16 +56,7 @@ const ImgPage = () => {
             <ImgShowComp file={file} />
           </div>
           {/* 上传区域 */}
-          <div className="w-full h-[20%] relative border-t-[1px] border-zinc-300 bg-slate-200 flex flex-col justify-center items-center gap-2">
-            <InboxOutlined style={{ fontSize: '2rem', color: '#1890ff' }} />
-            <p className="text-base">点击或拖拽文件至此区域上传</p>
-            <p className="text-sm">支持 jpg、png、gif 等常见图片格式</p>
-            <input
-              onChange={fileChangeHandler}
-              className="w-full opacity-0 h-full absolute cursor-pointer"
-              type="file"
-            />
-          </div>
+          <UploadArea reset={resetStatus} setFile={setFile} />
         </div>
         <div className="h-full overflow-auto">
           <div className="text-xl text-zinc-700 tracking-[2px] h-[80%]">
@@ -134,15 +67,7 @@ const ImgPage = () => {
             {/* 处理结果的文字 */}
             <div className="h-[30%] w-full flex">
               <div className="w-[30%] border-r-[1px] flex items-center justify-center">
-                <Tag bordered={false} color={status}>
-                  {status === 'success'
-                    ? '处理成功'
-                    : status === 'error'
-                      ? '处理失败'
-                      : status === 'default'
-                        ? '待处理'
-                        : '处理中'}
-                </Tag>
+                <StatusTag status={status} />
               </div>
               <div className="w-[70%] p-2">{resultTxt}</div>
             </div>
