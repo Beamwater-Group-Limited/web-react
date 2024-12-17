@@ -21,7 +21,7 @@ export const runApi = async (
 }
 
 /** 处理借口 */
-export const imgHandleApi = async (data: HandleApiType) => {
+export const imgHandleApi = async (data: HandleApiType): Promise<ApiResponseType<any>> => {
   return fetch('http://192.168.0.100:8080/v1/image_processing_flow_run', {
     method: 'POST',
     headers: {

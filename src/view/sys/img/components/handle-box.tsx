@@ -1,28 +1,24 @@
 import { SoundOutlined } from '@ant-design/icons'
-import { Button, Checkbox, message } from 'antd'
-import { useState } from 'react'
+import { Button, Checkbox } from 'antd'
 
 /** 处理框 */
 const HandleBox = (props: {
+  output: string[]
+  soundUrl: string
+  setOutput: (v: string[]) => void
   status: 'processing' | 'error' | 'success' | 'default'
   resultTxt: string
 }) => {
   /** 读文字 */
   const soundHandler = () => {
-    if (!window.SpeechSynthesisUtterance) {
-      return message.warning('当前浏览器不支持语音功能')
-    }
-    if (props.resultTxt) {
-      const utterance = new SpeechSynthesisUtterance(props.resultTxt)
-      window.speechSynthesis.speak(utterance)
-    }
+    const audio = new Audio(props.soundUrl)
+    audio.play() // 播放音频
   }
-  const [output, setOutput] = useState<string[]>([])
 
   const outputOptions = [
-    { label: '文本', value: '文本' },
-    { label: '图片', value: '图片' },
-    { label: '音频', value: '音频' }
+    { label: '文本', value: '1' },
+    { label: '图片', value: '2' },
+    { label: '音频', value: '3' }
   ] //下拉框
 
   return (
@@ -32,9 +28,9 @@ const HandleBox = (props: {
         <span>输出</span>
         <Checkbox.Group
           options={outputOptions}
-          value={output}
+          value={props.output}
           defaultValue={['Apple']}
-          onChange={(v) => setOutput(v)}
+          onChange={(v) => props.setOutput(v)}
         />
       </div>
       {/* 按钮组 */}
@@ -44,7 +40,7 @@ const HandleBox = (props: {
           icon={<SoundOutlined />}
           size="large"
           onClick={soundHandler}
-          disabled={props.status !== 'success'}
+          disabled={props.status !== 'success' || !props.soundUrl}
         >
           朗读
         </Button>

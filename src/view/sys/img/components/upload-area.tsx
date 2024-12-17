@@ -4,6 +4,7 @@ import { Button } from 'antd'
 /** 选择文件区域 */
 const UploadArea = (props: {
   file: File | null
+  output: string[]
   loading: boolean
   reset: () => void
   onHandle: () => void
@@ -32,7 +33,7 @@ const UploadArea = (props: {
       <div className="w-[20%] h-full flex items-center justify-center">
         <Button
           type="primary"
-          disabled={!props.file}
+          disabled={!props.file || props.output.length === 0}
           size="large"
           onClick={props.onHandle}
           loading={props.loading}
