@@ -1,15 +1,15 @@
 import ResImg from '@/assets/images/res.jpg'
 import RobotComp from '@/components/robot'
 import { Image } from 'antd'
-import { ImgLayout, UploadArea } from './components'
+import { CanvasOptions, CanvasWriter, ImgLayout, UploadArea } from './components'
 import { ImgShowComp } from './components/img-layout/components'
 import { useRef, useState } from 'react'
-import { InboxOutlined } from '@ant-design/icons'
 
 /** 图片页面 */
 const ImgPage = () => {
   const [file, setFile] = useState<File | null>(null) //选择的图片
   const imgHandleRef = useRef<any>()
+  const writerRef = useRef<any>()
   /** 文件改变 */
   const fileChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     let files = e.target.files
@@ -18,6 +18,12 @@ const ImgPage = () => {
       imgHandleRef.current?.reset()
     }
   }
+
+  const clearHandler = () => {
+    if (!writerRef.current) return
+    writerRef.current.clearCanvas()
+  }
+
   return (
     <div className="relative bg-white w-full flex flex-col gap-4 items-center">
       <RobotComp className="top-4 right-4" />
@@ -40,21 +46,9 @@ const ImgPage = () => {
       {/* 手写部分 */}
       <ImgLayout
         file={file}
-        ref={imgHandleRef}
         componentName="手写处理控件"
-        showChildren={<ImgShowComp file={file} />}
-        optionsChildren={
-          <div className="w-[80%] h-full flex flex-col justify-center items-center bg-slate-200 gap-2">
-            <InboxOutlined style={{ fontSize: '2rem', color: '#1890ff' }} />
-            <p className="text-base">点击或拖拽文件至此区域上传</p>
-            <p className="text-sm">支持 jpg、png、gif 等常见图片格式</p>
-            <input
-              onChange={fileChangeHandler}
-              className="w-full opacity-0 h-full absolute cursor-pointer"
-              type="file"
-            />
-          </div>
-        }
+        showChildren={<CanvasWriter ref={writerRef} />}
+        optionsChildren={<CanvasOptions onClear={clearHandler} />}
       />
     </div>
   )

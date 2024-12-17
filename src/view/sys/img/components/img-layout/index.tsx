@@ -64,12 +64,12 @@ const ImgHandleComp = forwardRef(
               stream: ''
             },
             output_type: output.map((item) => Number(item)),
-            flow_id: '0eb08a48-e095-4d1d-92b5-6a060ee18649'
+            flow_id: '65d9cf95-f237-4682-8b4b-27c35ecd65b7'
           })
             .then(({ data, info }) => {
               if (info.status === 200 && data.output_data) {
-                const { message, voice } = data.output_data
-                setResultTxt(message)
+                const { text, voice } = data.output_data
+                setResultTxt(text)
                 setStatus('success')
                 if (voice) {
                   setSoundUrl(createSound(voice))
