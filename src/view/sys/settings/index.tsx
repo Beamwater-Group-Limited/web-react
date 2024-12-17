@@ -5,7 +5,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
 /** 配置页面 */
 const SettingsPage = () => {
-  const [form] = Form.useForm()
+  const [imgSettingsForm] = Form.useForm()
   const navigate = useNavigate()
   const [_allFlows, setAllFlows] = useState<FlowItemType[]>([]) //所有流程
   const [options, setOptions] = useState<
@@ -49,7 +49,7 @@ const SettingsPage = () => {
         返回
       </Button>
       <Form
-        form={form}
+        form={imgSettingsForm}
         name="imgSettingsForm"
         layout="vertical"
         autoComplete="off"
@@ -68,7 +68,7 @@ const SettingsPage = () => {
         <Form.Item name="img_handle" label="图片处理" rules={[{ required: true }]}>
           <Select options={options} />
         </Form.Item>
-        <Form.Item name="chat" label="聊天语音" rules={[{ required: true }]}>
+        {/* <Form.Item name="chat" label="聊天语音" rules={[{ required: true }]}>
           <Select options={options} />
         </Form.Item>
         <Form.Item name="text" label="文本处理" rules={[{ required: true }]}>
@@ -76,7 +76,7 @@ const SettingsPage = () => {
         </Form.Item>
         <Form.Item name="globalSearch" label="全局检索" rules={[{ required: true }]}>
           <Select options={options} />
-        </Form.Item>
+        </Form.Item> */}
       </Form>
     </div>
   )
