@@ -1,4 +1,5 @@
 import { Button, Checkbox, Col, Form, Radio, Row, Select } from 'antd'
+import { useNavigate } from 'react-router-dom'
 
 /** 图片组件的配置 */
 const ImgSettings = (props: {
@@ -8,6 +9,8 @@ const ImgSettings = (props: {
   }[]
 }) => {
   const [form] = Form.useForm()
+
+  const navigate = useNavigate()
 
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values)
@@ -46,7 +49,16 @@ const ImgSettings = (props: {
         </Col>
         <Col span={12}>
           <Form.Item name="flow_id" label="处理流程" rules={[{ required: true }]}>
-            <Select options={props.options} />
+            <Row>
+              <Col span={18}>
+                <Select options={props.options} />
+              </Col>
+              <Col span={6}>
+                <Button color="primary" variant="link" onClick={() => navigate('/drag')}>
+                  新增流程
+                </Button>
+              </Col>
+            </Row>
           </Form.Item>
           <Form.Item>
             <div className="flex items-end justify-end">

@@ -1,4 +1,5 @@
 import { Form, Row, Col, Radio, Checkbox, Select, Button } from 'antd'
+import { useNavigate } from 'react-router-dom'
 
 /** 聊天语音配置 */
 const ChatSettings = (props: {
@@ -8,6 +9,8 @@ const ChatSettings = (props: {
   }[]
 }) => {
   const [form] = Form.useForm()
+
+  const navigate = useNavigate()
 
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values)
@@ -47,7 +50,18 @@ const ChatSettings = (props: {
         </Col>
         <Col span={12}>
           <Form.Item name="flow_id" label="处理流程" rules={[{ required: true }]}>
-            <Select options={props.options} />
+            <Form.Item name="flow_id" label="处理流程" rules={[{ required: true }]}>
+              <Row>
+                <Col span={18}>
+                  <Select options={props.options} />
+                </Col>
+                <Col span={6}>
+                  <Button color="primary" variant="link" onClick={() => navigate('/drag')}>
+                    新增流程
+                  </Button>
+                </Col>
+              </Row>
+            </Form.Item>
           </Form.Item>
           <Form.Item>
             <div className="flex items-end justify-end">
