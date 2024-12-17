@@ -5,10 +5,7 @@ import { useState } from 'react'
 /** 处理框 */
 const HandleBox = (props: {
   status: 'processing' | 'error' | 'success' | 'default'
-  file: File | null
-  loading: boolean
   resultTxt: string
-  onHandle: () => void
 }) => {
   /** 读文字 */
   const soundHandler = () => {
@@ -31,7 +28,7 @@ const HandleBox = (props: {
   return (
     <div className="border-t-[1px] h-[16vh] border-zinc-300 flex flex-col gap-4 p-4">
       {/* 用户选择 */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 border-r-[1px] rounded">
         <span>输出</span>
         <Checkbox.Group
           options={outputOptions}
@@ -42,15 +39,6 @@ const HandleBox = (props: {
       </div>
       {/* 按钮组 */}
       <div className="flex items-center justify-center gap-4">
-        <Button
-          type="primary"
-          disabled={!props.file}
-          size="large"
-          onClick={props.onHandle}
-          loading={props.loading}
-        >
-          处理
-        </Button>
         <Button
           type="primary"
           icon={<SoundOutlined />}

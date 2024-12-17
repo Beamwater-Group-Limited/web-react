@@ -43,7 +43,13 @@ const ImgPage = () => {
             <ImgShowComp file={file} />
           </div>
           {/* 上传区域 */}
-          <UploadArea reset={resetStatus} setFile={setFile} />
+          <UploadArea
+            reset={resetStatus}
+            setFile={setFile}
+            file={file}
+            loading={loading}
+            onHandle={onHandle}
+          />
         </div>
         <div className="h-full">
           <div className="text-xl text-zinc-700 tracking-[2px] h-[80%]">
@@ -60,13 +66,7 @@ const ImgPage = () => {
             </div>
           </div>
           {/* 处理框 */}
-          <HandleBox
-            status={status}
-            file={file}
-            loading={loading}
-            resultTxt={resultTxt}
-            onHandle={onHandle}
-          />
+          <HandleBox status={status} resultTxt={resultTxt} />
         </div>
       </div>
     </div>
