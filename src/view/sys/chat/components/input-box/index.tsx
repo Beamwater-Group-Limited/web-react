@@ -11,7 +11,6 @@ import {
 } from 'react'
 import SenderHeaderComp from './sender-header'
 import { getRandomString } from '@lichang666/utils'
-import { OpenAIOutlined } from '@ant-design/icons'
 
 export type InputBoxCompRef = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
@@ -105,30 +104,13 @@ const InputBoxComp = forwardRef(
         onChange={inputValueChangeHandler}
         disabled={props.loading}
         allowSpeech
+        onSubmit={props.submitHandler}
         onKeyDown={props.onKeyDown}
         onPasteFile={onPasteFile}
         onCancel={() => {
           props.setLoading(false)
         }}
         placeholder="输入您想要搜索的内容"
-        actions={(_, info) => {
-          const { SendButton, LoadingButton } = info.components
-
-          return (
-            <>
-              {props.loading ? (
-                <LoadingButton type="default" disabled />
-              ) : (
-                <SendButton
-                  onClick={props.submitHandler}
-                  type="primary"
-                  icon={<OpenAIOutlined />}
-                  disabled={false}
-                />
-              )}
-            </>
-          )
-        }}
       />
     )
   }
