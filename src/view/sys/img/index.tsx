@@ -34,17 +34,13 @@ const ImgPage = () => {
     }
   }
 
-  const content = () => {
-    return <img src={ResImg} />
-  }
-
   return (
     <Watermark content="图片处理控件" zIndex={1} className="w-full h-full">
       <div className="relative bg-white w-full h-full flex flex-col gap-4 items-center">
         <RobotComp className="top-4 right-4 z-10" />
         <div className="flex items-center gap-4">
           <h1 className="text-2xl font-bold">基于多层感知机（MLP）的手写体字符识别</h1>
-          <Popover content={content}>
+          <Popover content={<img src={ResImg} width={500} />}>
             <QuestionCircleFilled />
           </Popover>
         </div>

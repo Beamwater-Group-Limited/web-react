@@ -1,4 +1,6 @@
 import { FlowItemType } from '../flow'
+import { HandleApiType } from './types'
+export * from './types'
 export const runApi = async (
   data: {
     image_data: string
@@ -18,7 +20,8 @@ export const runApi = async (
   }).then((res) => res.json())
 }
 
-export const imgHandleApi = async (data: any) => {
+/** 处理借口 */
+export const imgHandleApi = async (data: HandleApiType) => {
   return fetch('http://192.168.0.100:8080/v1/image_processing_flow_run', {
     method: 'POST',
     headers: {
