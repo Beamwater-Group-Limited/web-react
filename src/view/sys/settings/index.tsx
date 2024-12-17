@@ -1,5 +1,5 @@
 import { Button, Collapse, CollapseProps } from 'antd'
-import { ImgSettings } from './components'
+import { ImgSettings, ChatSettings } from './components'
 import { FlowItemType, getAllFlowApi } from '@/api'
 import { useEffect, useState } from 'react'
 import { ArrowLeftOutlined } from '@ant-design/icons'
@@ -36,7 +36,7 @@ const SettingsPage = () => {
     {
       key: '2',
       label: '聊天语音配置',
-      children: <ImgSettings options={options} />
+      children: <ChatSettings options={options} />
     }
   ]
 
