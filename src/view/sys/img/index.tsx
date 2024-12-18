@@ -1,4 +1,4 @@
-import ResImg from '@/assets/images/res.jpg'
+import ExampleImg from '@/assets/images/example.png'
 import RobotComp from '@/components/robot'
 import { Image } from 'antd'
 import { CanvasOptions, CanvasWriter, ImgLayout, UploadArea } from './components'
@@ -8,6 +8,7 @@ import { useRef, useState } from 'react'
 /** 图片页面 */
 const ImgPage = () => {
   const [file, setFile] = useState<File | null>(null) //选择的图片
+  const [writeFile, setWriteFile] = useState<File | null>(null) //手写的图片
   const imgHandleRef = useRef<any>()
   const writerRef = useRef<any>()
   /** 文件改变 */
@@ -19,9 +20,15 @@ const ImgPage = () => {
     }
   }
 
+  /** 清空画布 */
   const clearHandler = () => {
     if (!writerRef.current) return
     writerRef.current.clearCanvas()
+  }
+
+  /** 每次停止手写时会生成图片 */
+  const createImg = (file: File) => {
+    setWriteFile(file)
   }
 
   return (
@@ -29,7 +36,7 @@ const ImgPage = () => {
       <RobotComp className="top-4 right-4" />
       <div className="flex items-center gap-4">
         <h1 className="text-2xl font-bold">基于多层感知机（MLP）的手写体字符识别</h1>
-        <Image src={ResImg} width={40} height={40} />
+        <Image src={ExampleImg} width={40} height={40} />
       </div>
       <div className="w-[50vw] text-base tracking-[2px] indent-8">
         多层感知机（MLP）
@@ -45,9 +52,9 @@ const ImgPage = () => {
       />
       {/* 手写部分 */}
       <ImgLayout
-        file={file}
+        file={writeFile}
         componentName="手写处理控件"
-        showChildren={<CanvasWriter ref={writerRef} />}
+        showChildren={<CanvasWriter ref={writerRef} createImg={createImg} />}
         optionsChildren={<CanvasOptions onClear={clearHandler} />}
       />
     </div>
