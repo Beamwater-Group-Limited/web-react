@@ -1,5 +1,5 @@
 import { FuncParamsType } from '@/api'
-import { Input, Select } from 'antd'
+import { Form, Input, Select } from 'antd'
 import { CurrentNodeType } from './types'
 
 const OptionsBox = (props: {
@@ -7,9 +7,10 @@ const OptionsBox = (props: {
   currentNode: CurrentNodeType
   onChange: (changeType: 'name' | 'param', value: string, key?: string) => void
 }) => {
+  const [form] = Form.useForm()
   return (
     <div className="w-full">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 mb-4">
         <span>回调</span>
         <Select
           className="w-full"
@@ -19,18 +20,24 @@ const OptionsBox = (props: {
           options={props.options}
         />
       </div>
-      {props.currentNode.params.map((item: FuncParamsType) => {
-        return (
-          <div className="flex flex-col gap-4 mt-12" key={item.key}>
-            <span>{item.key}</span>
-            <Input
-              disabled={item.is_update === '0'}
-              value={item.default_value}
-              onChange={(e) => props.onChange('param', e.target.value, item.key)}
-            />
-          </div>
-        )
-      })}
+      <Form name="basic" form={form} layout="vertical" labelCol={{ span: 8 }} autoComplete="off">
+        {props.currentNode.params.map((item: FuncParamsType) => {
+          return (
+            <Form.Item
+              label={item.key}
+              name={item.key}
+              key={item.key}
+              rules={[{ required: item.is_empty === '0' }]}
+            >
+              <Input
+                disabled={item.is_update === '0'}
+                value={item.default_value}
+                onChange={(e) => props.onChange('param', e.target.value, item.key)}
+              />
+            </Form.Item>
+          )
+        })}
+      </Form>
     </div>
   )
 }
