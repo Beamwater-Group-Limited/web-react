@@ -117,7 +117,7 @@ const CanvasWriter = forwardRef(
       <canvas
         id="canvas"
         ref={canvasRef}
-        className="w-full h-full border-neutral-800 border z-10"
+        className="w-full h-full border-neutral-800 border z-10 rounded"
         onMouseDown={startDrawing}
         onMouseMove={draw}
         onMouseUp={stopDrawing}

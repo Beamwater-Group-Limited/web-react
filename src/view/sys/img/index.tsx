@@ -51,7 +51,7 @@ const ImgPage = () => {
         showChildren={<CanvasWriter ref={writerRef} createImg={createImg} />}
         optionsChildren={<CanvasOptions onClear={clearHandler} />}
       />
-      <h1 className="text-2xl font-bold mt-20">基于多层感知机（MLP）的图片智能识别</h1>
+      <h1 className="text-2xl font-bold mt-[10vh]">基于多层感知机（MLP）的图片智能识别</h1>
       {/* 处理部分 */}
       <ImgLayout
         file={file}
