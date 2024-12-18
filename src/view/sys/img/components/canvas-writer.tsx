@@ -13,22 +13,18 @@ const CanvasWriter = forwardRef(
     const [brushColor] = useState('black') // 画笔颜色
     const [brushSize] = useState(2) // 画笔大小
 
+    /** 获取当前canvas图片 */
     const getCanvasImg = () => {
       const canvas = canvasRef.current
       if (!canvas) return
       const dataUrl = canvas.toDataURL('image/png')
-      // 将 Base64 数据转换为 Blob 对象
       const byteString = atob(dataUrl.split(',')[1]) // 去掉 data:image/png;base64, 部分
       const arrayBuffer = new ArrayBuffer(byteString.length)
       const uintArray = new Uint8Array(arrayBuffer)
       for (let i = 0; i < byteString.length; i++) {
         uintArray[i] = byteString.charCodeAt(i)
       }
-
-      // 创建 Blob 对象
       const blob = new Blob([uintArray], { type: 'image/png' })
-
-      // 将 Blob 转换为 File 对象
       const file = new File([blob], 'canvas_image.png', { type: 'image/png' })
       return file
     }
