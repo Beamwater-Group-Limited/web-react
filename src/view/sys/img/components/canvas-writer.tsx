@@ -74,6 +74,21 @@ const CanvasWriter = forwardRef(
       return { x, y }
     }
 
+    //重置画布大小
+    const resetCanvasSize = () => {
+      if (!canvasRef.current) return
+      const canvas = canvasRef.current
+      const rect = canvas.getBoundingClientRect()
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
+      const currentImage = ctx.getImageData(0, 0, canvas.width, canvas.height) // 保存当前内容
+      canvas.width = rect.width
+      canvas.height = rect.height
+      ctx.fillStyle = 'white' // 设置填充颜色为白色
+      ctx.fillRect(0, 0, canvas.width, canvas.height) // 填充整个画布
+      ctx.putImageData(currentImage, 0, 0) // 恢复保存的内容
+    }
+
     // 开始绘制
     const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
       const { x, y } = getCanvasPosition(e)
@@ -107,6 +122,10 @@ const CanvasWriter = forwardRef(
 
     useEffect(() => {
       initializeCanvas()
+      window.addEventListener('resize', resetCanvasSize)
+      return () => {
+        window.removeEventListener('resize', resetCanvasSize)
+      }
     }, [])
 
     return (
