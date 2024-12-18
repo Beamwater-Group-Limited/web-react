@@ -1,3 +1,4 @@
+import { ArrowLeftOutlined } from '@ant-design/icons'
 import { Button, message, Space, Table, TableProps } from 'antd'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -85,7 +86,25 @@ const FlowListPage = () => {
       )
     }
   ]
-  return <Table loading={loading} rowKey="id" columns={columns} dataSource={flowList} />
+  return (
+    <>
+      <div className="flex justify-between mb-4">
+        <Button
+          className="float-left"
+          color="default"
+          onClick={() => navigate(-1)}
+          icon={<ArrowLeftOutlined />}
+          variant="text"
+        >
+          返回
+        </Button>
+        <Button type="primary" onClick={() => navigate('/drag')}>
+          新增流程
+        </Button>
+      </div>
+      <Table loading={loading} rowKey="id" columns={columns} dataSource={flowList} />
+    </>
+  )
 }
 
 export default FlowListPage

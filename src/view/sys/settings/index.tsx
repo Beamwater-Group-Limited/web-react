@@ -57,20 +57,22 @@ const SettingsPage = () => {
       >
         <Form.Item>
           <div className="flex items-end justify-end gap-4">
-            <Button type="primary" onClick={() => navigate('/drag')}>
-              新增流程
+            <Button type="primary" onClick={() => navigate('/flow-list')}>
+              流程管理
             </Button>
             <Button type="primary" htmlType="submit">
               保存
             </Button>
           </div>
         </Form.Item>
-        <Form.Item name="img" label="图片智能处理控件" rules={[{ required: true }]}>
-          <Select options={options} />
-        </Form.Item>
-        <Form.Item name="write" label="手写字智能处理控件" rules={[{ required: true }]}>
-          <Select options={options} />
-        </Form.Item>
+        <div className="max-h-[60vh] overflow-auto">
+          <Form.Item name="img" label="图片智能处理控件" rules={[{ required: true }]}>
+            <Select options={options} />
+          </Form.Item>
+          <Form.Item name="write" label="手写字智能处理控件" rules={[{ required: true }]}>
+            <Select options={options} />
+          </Form.Item>
+        </div>
       </Form>
     </div>
   )
