@@ -1,25 +1,17 @@
+import { FlowItemType, getAllFlowApi, runTestApi } from '@/api'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { Button, message, Space, Table, TableProps } from 'antd'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-type ItemType = {
-  id: string
-  all_function: string[]
-  flow_name: string
-}
-
 /** 流程列表页面 */
 const FlowListPage = () => {
   const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
-  const [flowList, setFlowList] = useState<ItemType[]>([])
+  const [flowList, setFlowList] = useState<FlowItemType[]>([])
   const getFlowList = () => {
     setLoading(true)
-    fetch('http://192.168.0.100:8080/v1/get_all_flow', {
-      method: 'POST'
-    })
-      .then((res) => res.json())
+    getAllFlowApi()
       .then(({ data }) => {
         setFlowList(data)
         setLoading(false)
@@ -29,21 +21,14 @@ const FlowListPage = () => {
       })
   }
 
-  const toEdit = (item: ItemType) => {
+  const toEdit = (item: FlowItemType) => {
     navigate('/drag?id=' + item.id)
   }
 
   /** 点击测试 */
-  const testHandler = (item: ItemType) => {
+  const testHandler = (item: FlowItemType) => {
     setLoading(true)
-    fetch('http://192.168.0.100:8080/v1/test_run_flow', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(item)
-    })
-      .then((res) => res.json())
+    runTestApi(item)
       .then(({ data, info }) => {
         if (info.status === 500) {
           message.error(info.name)
@@ -61,7 +46,7 @@ const FlowListPage = () => {
     getFlowList()
   }, [])
 
-  const columns: TableProps<ItemType>['columns'] = [
+  const columns: TableProps<FlowItemType>['columns'] = [
     {
       title: '流程名称',
       dataIndex: 'data',
