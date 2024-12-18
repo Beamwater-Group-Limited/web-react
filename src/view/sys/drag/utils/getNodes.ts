@@ -1,8 +1,9 @@
+import { FuncParamsType } from '@/api'
 import { Graph } from '@antv/x6'
 
 export type ItemType = {
   functionName: string
-  params: string
+  params: FuncParamsType[]
 }
 
 // 在 X6 图形中获取拓扑排序的节点列表
@@ -25,7 +26,7 @@ export const getOrderedNodes = (graph: Graph) => {
       const targetId = target.id
       const attr = {
         functionName: target.getData()?.functionName || '',
-        params: target.getData()?.params || ''
+        params: target.getData()?.params || []
       }
       adjacencyList[sourceId].push({ targetId, attr })
     }
@@ -59,7 +60,7 @@ export const getOrderedNodes = (graph: Graph) => {
         targetId: node.id,
         attr: {
           functionName: node.getData()?.functionName || '',
-          params: node.getData()?.params || ''
+          params: node.getData()?.params || []
         }
       })
     }

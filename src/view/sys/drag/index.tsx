@@ -6,16 +6,19 @@ import './index.css'
 import { Button, Input, Select } from 'antd'
 import { useLocation } from 'react-router-dom'
 import { getRouteQuery } from '@/utils'
-import { FuncItemType, getAllFunctionApi, getFlowByIdApi } from '@/api'
+import { FuncItemType, FuncParamsType, getAllFunctionApi, getFlowByIdApi } from '@/api'
 /** 拖拽生成页面 */
 const DragPage = () => {
   const [allFunctions, setAllFunctions] = useState<FuncItemType[]>([])
   const [visible, setVisible] = useState(false)
   const [funcList, setFunctList] = useState<any[]>([])
-  const [currentNode, setCurrentNode] = useState({
+  const [currentNode, setCurrentNode] = useState<{
+    nodeId: string
+    params: FuncParamsType[]
+    functionName: string
+  }>({
     nodeId: '',
-    params: '',
-    showParams: false,
+    params: [],
     functionName: ''
   })
   const [id, setId] = useState('')
@@ -40,19 +43,17 @@ const DragPage = () => {
     }
     graph.current.on('node:mousedown', ({ node }) => {
       let n = node as any
-      if (n.shape === 'custom-circle') {
+      if (n.shape === 'custom-rect') {
         setCurrentNode({
-          nodeId: '',
-          showParams: false,
-          params: '',
-          functionName: ''
+          nodeId: n.id,
+          params: n.getData()?.params || [],
+          functionName: n.getData()?.functionName || ''
         })
       } else {
         setCurrentNode({
-          nodeId: node.id,
-          showParams: node.getData()?.params,
-          params: node.getData()?.params || '',
-          functionName: node.getData()?.functionName || ''
+          nodeId: '',
+          params: [],
+          functionName: ''
         })
       }
     })
@@ -99,48 +100,52 @@ const DragPage = () => {
       })
       let funcItem = allFunctions.find((item: any) => item.function_name === e)
       ;(node as any).label = e
-      if (funcItem && funcItem.parameters === '') {
+      if (funcItem) {
         setCurrentNode((pre) => {
           return {
             ...pre,
-            params: '',
-            showParams: false,
+            params: funcItem.parameters,
             functionName: e
           }
         })
         node.setData({
-          params: ''
-        })
-      } else if (funcItem && typeof funcItem.parameters !== 'string') {
-        setCurrentNode((pre) => {
-          return {
-            ...pre,
-            params: (funcItem.parameters as any).template,
-            showParams: true,
-            functionName: e
-          }
-        })
-        node.setData({
-          params: funcItem.parameters.template
+          params: funcItem.parameters
         })
       }
     }
   }
 
-  const paramsChange = (e: string) => {
+  const paramsChange = (e: string, key: string) => {
     if (!graph.current) return
     const node = graph.current.getCellById(currentNode.nodeId)
-    if (node) {
-      node.setData({
-        params: e
-      })
-      setCurrentNode((pre) => {
-        return {
-          ...pre,
-          params: e
-        }
-      })
-    }
+    if (!node) return
+    let params = (node.getData()?.params || []) as FuncParamsType[]
+    let newParams = params.map((item) => {
+      if (item.key === key) {
+        item.default_value = e
+      }
+      return item
+    })
+    node.setData({
+      params: newParams
+    })
+    setCurrentNode((pre) => {
+      return {
+        ...pre,
+        params: newParams
+      }
+    })
+    // if (node) {
+    //   node.setData({
+    //     params: e
+    //   })
+    //   setCurrentNode((pre) => {
+    //     return {
+    //       ...pre,
+    //       params: []
+    //     }
+    //   })
+    // }
   }
 
   const saveHandler = () => {
@@ -188,16 +193,18 @@ const DragPage = () => {
                   options={funcOptions}
                 />
               </div>
-              {currentNode.showParams && (
-                <div className="flex flex-col gap-4 mt-12">
-                  <span>参数</span>
-                  <Input
-                    disabled={id !== ''}
-                    value={currentNode.params}
-                    onChange={(e) => paramsChange(e.target.value)}
-                  />
-                </div>
-              )}
+              {currentNode.params.map((item: FuncParamsType) => {
+                return (
+                  <div className="flex flex-col gap-4 mt-12" key={item.key}>
+                    <span>{item.key}</span>
+                    <Input
+                      disabled={item.is_update === '0'}
+                      value={item.default_value}
+                      onChange={(e) => paramsChange(e.target.value, item.key)}
+                    />
+                  </div>
+                )
+              })}
             </div>
           )}
         </div>

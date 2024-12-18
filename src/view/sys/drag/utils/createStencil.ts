@@ -22,27 +22,6 @@ const createStencilWithLayer = (graph: Graph) => {
     name: 'group1',
     nodes: [startNode, endNode, custom]
   }
-
-  // const layerList = functionList.map((item) => {
-  //   return {
-  //     name: item.name,
-  //     nodes: item.value.map((n: any) => {
-  //       return graph.createNode({
-  //         shape: 'custom-rect',
-  //         attrs: {
-  //           body: {
-  //             rx: 6,
-  //             ry: 6
-  //           },
-  //           info: n
-  //         },
-  //         label: n.function_name
-  //       })
-  //     })
-  //   }
-  // })
-
-  // return [base, ...layerList]
   return [base]
 }
 
