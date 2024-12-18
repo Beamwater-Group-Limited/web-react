@@ -1,5 +1,5 @@
 import { Graph } from '@antv/x6'
-import { useEffect, useRef, useState } from 'react'
+import { forwardRef, Ref, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { CurrentNodeType, OptionsBox, SaveDialogComp } from './components'
 import { getOrderedNodes, graphInit, nodeReview } from './utils'
 import './index.css'
@@ -9,7 +9,7 @@ import { getRouteQuery } from '@/utils'
 import { FuncItemType, FuncParamsType, getAllFunctionApi, getFlowByIdApi } from '@/api'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 /** 拖拽生成页面 */
-const DragPage = (props: { id?: string }) => {
+const DragPage = forwardRef((_props: {}, ref: Ref<any>) => {
   const navigate = useNavigate()
   const [allFunctions, setAllFunctions] = useState<FuncItemType[]>([])
   const [visible, setVisible] = useState(false)
@@ -22,6 +22,10 @@ const DragPage = (props: { id?: string }) => {
   const [id, setId] = useState('')
   const location = useLocation()
   const graph = useRef<Graph | null>(null)
+
+  useImperativeHandle(ref, () => ({
+    drawById
+  }))
 
   const [funcOptions, setFunctOptions] = useState<AntdSelectOption[]>([])
 
@@ -42,6 +46,17 @@ const DragPage = (props: { id?: string }) => {
           functionName: ''
         })
       }
+    })
+  }
+
+  const drawById = (flowId: string) => {
+    if (!graph.current) return
+    graph.current.clearCells()
+    if (!flowId) return
+    setId(flowId)
+    getFlowByIdApi(flowId).then(({ data }) => {
+      let funcions = data.data.all_function
+      nodeReview(graph.current, funcions)
     })
   }
 
@@ -70,27 +85,20 @@ const DragPage = (props: { id?: string }) => {
     if (id) {
       setId('')
     }
-    let flowId = ''
-    if (props.id) {
-      flowId = props.id
-    } else {
-      let query = getRouteQuery(location.search)
-      if (query && query.id) {
-        flowId = query.id
-      }
+    let query = getRouteQuery(location.search)
+    if (query && query.id) {
+      setId(query.id)
+      getFlowByIdApi(query.id).then(({ data }) => {
+        let funcions = data.data.all_function
+        nodeReview(graph.current, funcions)
+      })
     }
-    if (!flowId) return
-    setId(flowId)
-    getFlowByIdApi(flowId).then(({ data }) => {
-      let funcions = data.data.all_function
-      nodeReview(graph.current, funcions)
-    })
   }
 
   useEffect(() => {
     functionOptionsInit()
     reviewHandler()
-  }, [location, props])
+  }, [location])
 
   /** 节点改变 */
   const handleNodeChange = (changeType: 'name' | 'param', value: string, key?: string) => {
@@ -172,6 +180,7 @@ const DragPage = (props: { id?: string }) => {
         {currentNode.nodeId && (
           <div className="absolute bg-white right-0 top-0 w-[20%] h-full p-4">
             <OptionsBox
+              disabled={id !== undefined && id !== ''}
               options={funcOptions}
               currentNode={currentNode}
               onChange={handleNodeChange}
@@ -186,6 +195,5 @@ const DragPage = (props: { id?: string }) => {
       />
     </>
   )
-}
-
+})
 export default DragPage

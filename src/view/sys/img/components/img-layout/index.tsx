@@ -64,7 +64,7 @@ const ImgHandleComp = forwardRef(
               stream: ''
             },
             output_type: output.map((item) => Number(item)),
-            flow_id: '65d9cf95-f237-4682-8b4b-27c35ecd65b7'
+            flow_id: '6334fb8a-b39b-4cbc-8e76-461eff563d42'
           })
             .then(({ data, info }) => {
               if (info.status === 200 && data.output_data) {

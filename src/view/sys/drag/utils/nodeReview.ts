@@ -26,7 +26,7 @@ export const nodeReview = (graph: Graph | null, nodeList: ItemType[]) => {
     })
     node.setData({
       functionName: item.function_name,
-      params: item.parameters === '' ? '' : item.parameters.template
+      params: item.parameters
     })
     nodes.push(node)
   })

@@ -1,13 +1,15 @@
 import { Button, Form, Select } from 'antd'
 import { FlowItemType, getAllFlowApi } from '@/api'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
+import DragPage from '../drag'
 /** 配置页面 */
 const SettingsPage = () => {
   const [imgSettingsForm] = Form.useForm()
   const navigate = useNavigate()
   const [_allFlows, setAllFlows] = useState<FlowItemType[]>([]) //所有流程
+  const imgFlowRef = useRef<any>()
   const [options, setOptions] = useState<
     {
       label: string
@@ -17,6 +19,13 @@ const SettingsPage = () => {
 
   const onFinish = (values: any) => {
     console.log('Received values of form: ', values)
+  }
+
+  /** 表单值改变 */
+  const onFormValuesChange = (value: any) => {
+    if (value.img) {
+      imgFlowRef.current?.drawById(value.img)
+    }
   }
 
   /** 初始化选项 */
@@ -50,6 +59,7 @@ const SettingsPage = () => {
       </Button>
       <Form
         form={imgSettingsForm}
+        onValuesChange={onFormValuesChange}
         name="imgSettingsForm"
         layout="vertical"
         autoComplete="off"
@@ -65,14 +75,15 @@ const SettingsPage = () => {
             </Button>
           </div>
         </Form.Item>
-        <div className="max-h-[60vh] overflow-auto">
-          <Form.Item name="img" label="图片智能处理控件" rules={[{ required: true }]}>
-            <Select options={options} />
-          </Form.Item>
-          <Form.Item name="write" label="手写字智能处理控件" rules={[{ required: true }]}>
-            <Select options={options} />
-          </Form.Item>
-        </div>
+        <Form.Item name="img" label="图片智能处理控件" rules={[{ required: true }]}>
+          <Select options={options} />
+        </Form.Item>
+      </Form>
+      <DragPage ref={imgFlowRef} />
+      <Form>
+        <Form.Item name="write" label="手写字智能处理控件" rules={[{ required: true }]}>
+          <Select options={options} />
+        </Form.Item>
       </Form>
     </div>
   )
