@@ -17,15 +17,10 @@ const SettingsPage = () => {
     }[]
   >([]) //下拉框选项
 
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values)
-  }
-
-  /** 表单值改变 */
-  const onFormValuesChange = (value: any) => {
-    if (value.img) {
-      imgFlowRef.current?.drawById(value.img)
-    }
+  const [imgFlow, setImgFlow] = useState('') //图片流程
+  const imgFlowChange = (value: string) => {
+    setImgFlow(value)
+    imgFlowRef.current?.drawById(value)
   }
 
   /** 初始化选项 */
@@ -66,20 +61,13 @@ const SettingsPage = () => {
           </Button>
         </div>
       </div>
-      <Form
-        form={imgSettingsForm}
-        onValuesChange={onFormValuesChange}
-        name="imgSettingsForm"
-        layout="vertical"
-        autoComplete="off"
-        onFinish={onFinish}
-      >
+      <Form form={imgSettingsForm} name="imgSettingsForm" layout="vertical" autoComplete="off">
         <Form.Item name="img" label="图片智能处理控件" rules={[{ required: true }]}>
-          <Select options={options} />
+          <Select value={imgFlow} onChange={imgFlowChange} options={options} />
         </Form.Item>
       </Form>
       <DragPage show={true} ref={imgFlowRef} />
-      <Form>
+      <Form layout="vertical" autoComplete="off" className="mt-4">
         <Form.Item name="write" label="手写字智能处理控件" rules={[{ required: true }]}>
           <Select options={options} />
         </Form.Item>

@@ -182,7 +182,7 @@ const DragPage = forwardRef(
             )}
           </div>
         )}
-        <div id="container" className="relative">
+        <div id="container" className="relative" style={{ height: props.show ? '40vh' : '70vh' }}>
           <div id="stencil" style={{ display: id || props.show ? 'none' : 'block' }}></div>
           <div id="graph-container"></div>
           {currentNode.nodeId && (

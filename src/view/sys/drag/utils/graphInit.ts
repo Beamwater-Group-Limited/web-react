@@ -15,6 +15,7 @@ export const graphInit = (id: string = 'graph-container', stencilId: string = 's
       minScale: 0.5,
       maxScale: 3
     },
+    panning: true,
     connecting: {
       router: 'manhattan',
       connector: {
