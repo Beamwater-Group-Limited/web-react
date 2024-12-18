@@ -3,7 +3,7 @@ import { Keyboard } from '@antv/x6-plugin-keyboard'
 import { Selection } from '@antv/x6-plugin-selection'
 import { createStencil } from './createStencil'
 /** 初始化 */
-export const graphInit = (id: string = 'graph-container', stencilId: string = 'stencil') => {
+export const graphInit = (id: string, stencilId: string) => {
   const containerDom = document.getElementById(id) as HTMLElement | undefined
   const graphContainer: Graph = new Graph({
     container: containerDom,
