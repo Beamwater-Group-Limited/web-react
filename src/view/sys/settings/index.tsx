@@ -65,13 +65,13 @@ const SettingsPage = () => {
             </Button>
           </div>
         </Form.Item>
-        <Form.Item name="img_handle" label="图片处理" rules={[{ required: true }]}>
+        <Form.Item name="img" label="图片处理控件" rules={[{ required: true }]}>
           <Select options={options} />
         </Form.Item>
-        {/* <Form.Item name="chat" label="聊天语音" rules={[{ required: true }]}>
+        <Form.Item name="write" label="手写处理控件" rules={[{ required: true }]}>
           <Select options={options} />
         </Form.Item>
-        <Form.Item name="text" label="文本处理" rules={[{ required: true }]}>
+        {/* <Form.Item name="text" label="文本处理" rules={[{ required: true }]}>
           <Select options={options} />
         </Form.Item>
         <Form.Item name="globalSearch" label="全局检索" rules={[{ required: true }]}>
