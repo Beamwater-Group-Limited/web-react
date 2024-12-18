@@ -1,8 +1,10 @@
 import { Graph, Shape } from '@antv/x6'
 import { Keyboard } from '@antv/x6-plugin-keyboard'
 import { Selection } from '@antv/x6-plugin-selection'
+import { createStencil } from './createStencil'
 /** 初始化 */
-export const graphInit = (containerDom: HTMLElement | undefined) => {
+export const graphInit = (id: string = 'graph-container', stencilId: string = 'stencil') => {
+  const containerDom = document.getElementById(id) as HTMLElement | undefined
   const graphContainer: Graph = new Graph({
     container: containerDom,
     grid: true,
@@ -95,5 +97,13 @@ export const graphInit = (containerDom: HTMLElement | undefined) => {
       graphContainer.removeCells(cells)
     }
   })
+
+  //创建侧边栏
+  const stencil = createStencil(graphContainer)
+  const stencilDom = document.getElementById(stencilId) as HTMLElement | undefined
+  if (stencilDom && stencilDom.children.length > 0) {
+    stencilDom.innerHTML = ''
+  }
+  stencilDom?.appendChild(stencil.container)
   return graphContainer
 }

@@ -1,7 +1,7 @@
 import { Graph } from '@antv/x6'
 import { useEffect, useRef, useState } from 'react'
 import { CurrentNodeType, OptionsBox, SaveDialogComp } from './components'
-import { getOrderedNodes, graphInit, createStencil, nodeReview } from './utils'
+import { getOrderedNodes, graphInit, nodeReview } from './utils'
 import './index.css'
 import { Button } from 'antd'
 import { useLocation } from 'react-router-dom'
@@ -25,20 +25,13 @@ const DragPage = () => {
 
   /** 初始化画布 */
   const initGraph = () => {
-    const containerDom = document.getElementById('graph-container') as HTMLElement | undefined
-    graph.current = graphInit(containerDom)
-    const stencil = createStencil(graph.current)
-    const stencilDom = document.getElementById('stencil') as HTMLElement | undefined
-    if (stencilDom && stencilDom.children.length > 0) {
-      stencilDom.innerHTML = ''
-    }
+    graph.current = graphInit()
     graph.current.on('node:mousedown', ({ node }) => {
-      let n = node as any
-      if (n.shape === 'custom-rect') {
+      if (node.shape === 'custom-rect') {
         setCurrentNode({
-          nodeId: n.id,
-          params: n.getData()?.params || [],
-          functionName: n.getData()?.functionName || ''
+          nodeId: node.id,
+          params: node.getData()?.params || [],
+          functionName: node.getData()?.functionName || ''
         })
       } else {
         setCurrentNode({
@@ -48,16 +41,12 @@ const DragPage = () => {
         })
       }
     })
-    stencilDom?.appendChild(stencil.container)
   }
 
-  useEffect(() => {
-    if (id) {
-      setId('')
-    }
-    let query = getRouteQuery(location.search)
+  /** 初始化函数选项 */
+  const functionOptionsInit = () => {
     getAllFunctionApi().then(({ data }) => {
-      let list: { label: string; value: string }[] = []
+      let list: AntdSelectOption[] = []
       let funcs: FuncItemType[] = []
       data.forEach((item) => {
         item.value.forEach((i) => {
@@ -72,6 +61,14 @@ const DragPage = () => {
       setFunctOptions(list)
       initGraph()
     })
+  }
+
+  /** 页面回显时调用 */
+  const reviewHandler = () => {
+    if (id) {
+      setId('')
+    }
+    let query = getRouteQuery(location.search)
     //回显
     if (query && query.id) {
       setId(query.id)
@@ -80,52 +77,53 @@ const DragPage = () => {
         nodeReview(graph.current, funcions)
       })
     }
+  }
+
+  useEffect(() => {
+    functionOptionsInit()
+    reviewHandler()
   }, [location])
 
-  const changeHandler = (e: string) => {
+  /** 节点改变 */
+  const handleNodeChange = (changeType: 'name' | 'param', value: string, key?: string) => {
     if (!graph.current) return
-    const node = graph.current.getCellById(currentNode.nodeId)
-    if (node) {
+    const node = graph.current.getCellById(currentNode.nodeId) as any
+    if (!node) return
+    // 处理节点名称变化
+    if (changeType === 'name') {
+      let funcItem = allFunctions.find((item) => item.function_name === value)
       node.setData({
-        functionName: e
+        functionName: value
       })
-      let funcItem = allFunctions.find((item: any) => item.function_name === e)
-      ;(node as any).label = e
+      node.label = value
       if (funcItem) {
-        setCurrentNode((pre) => {
-          return {
-            ...pre,
-            params: funcItem.parameters,
-            functionName: e
-          }
-        })
+        setCurrentNode((prev) => ({
+          ...prev,
+          params: funcItem.parameters,
+          functionName: value
+        }))
         node.setData({
           params: funcItem.parameters
         })
       }
     }
-  }
-
-  const paramsChange = (e: string, key: string) => {
-    if (!graph.current) return
-    const node = graph.current.getCellById(currentNode.nodeId)
-    if (!node) return
-    let params = (node.getData()?.params || []) as FuncParamsType[]
-    let newParams = params.map((item) => {
-      if (item.key === key) {
-        item.default_value = e
-      }
-      return item
-    })
-    node.setData({
-      params: newParams
-    })
-    setCurrentNode((pre) => {
-      return {
-        ...pre,
+    // 处理参数值变化
+    if (changeType === 'param' && key) {
+      let params = (node.getData()?.params || []) as FuncParamsType[]
+      let newParams = params.map((item) => {
+        if (item.key === key) {
+          item.default_value = value
+        }
+        return item
+      })
+      node.setData({
         params: newParams
-      }
-    })
+      })
+      setCurrentNode((prev) => ({
+        ...prev,
+        params: newParams
+      }))
+    }
   }
 
   const saveHandler = () => {
@@ -135,13 +133,7 @@ const DragPage = () => {
     const a = funcs.map((item: any) => {
       return {
         ...allFunctions.find((i: any) => i.function_name === item.functionName),
-        parameters:
-          item.params === ''
-            ? ''
-            : {
-                parameters: '',
-                template: item.params
-              }
+        parameters: item.params
       }
     })
     setFunctList(a)
@@ -164,8 +156,7 @@ const DragPage = () => {
             <OptionsBox
               options={funcOptions}
               currentNode={currentNode}
-              changeHandler={changeHandler}
-              paramsChange={paramsChange}
+              onChange={handleNodeChange}
             />
           )}
         </div>

@@ -5,8 +5,7 @@ import { CurrentNodeType } from './types'
 const OptionsBox = (props: {
   options: AntdSelectOption[]
   currentNode: CurrentNodeType
-  changeHandler: (e: string) => void
-  paramsChange: (e: string, key: string) => void
+  onChange: (changeType: 'name' | 'param', value: string, key?: string) => void
 }) => {
   return (
     <div className="w-full">
@@ -16,7 +15,7 @@ const OptionsBox = (props: {
           className="w-full"
           showSearch
           value={props.currentNode.functionName}
-          onChange={(e) => props.changeHandler(e)}
+          onChange={(e) => props.onChange('name', e)}
           options={props.options}
         />
       </div>
@@ -27,7 +26,7 @@ const OptionsBox = (props: {
             <Input
               disabled={item.is_update === '0'}
               value={item.default_value}
-              onChange={(e) => props.paramsChange(e.target.value, item.key)}
+              onChange={(e) => props.onChange('param', e.target.value, item.key)}
             />
           </div>
         )
