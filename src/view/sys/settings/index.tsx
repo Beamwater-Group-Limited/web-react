@@ -47,16 +47,25 @@ const SettingsPage = () => {
   }, [])
 
   return (
-    <div>
-      <Button
-        className="float-left"
-        color="default"
-        onClick={() => navigate(-1)}
-        icon={<ArrowLeftOutlined />}
-        variant="text"
-      >
-        返回
-      </Button>
+    <>
+      <div className="flex items-center justify-between mb-4">
+        <Button
+          color="default"
+          onClick={() => navigate(-1)}
+          icon={<ArrowLeftOutlined />}
+          variant="text"
+        >
+          返回
+        </Button>
+        <div className="flex gap-4">
+          <Button type="primary" onClick={() => navigate('/flow-list')}>
+            流程管理
+          </Button>
+          <Button type="primary" htmlType="submit">
+            保存
+          </Button>
+        </div>
+      </div>
       <Form
         form={imgSettingsForm}
         onValuesChange={onFormValuesChange}
@@ -65,27 +74,17 @@ const SettingsPage = () => {
         autoComplete="off"
         onFinish={onFinish}
       >
-        <Form.Item>
-          <div className="flex items-end justify-end gap-4">
-            <Button type="primary" onClick={() => navigate('/flow-list')}>
-              流程管理
-            </Button>
-            <Button type="primary" htmlType="submit">
-              保存
-            </Button>
-          </div>
-        </Form.Item>
         <Form.Item name="img" label="图片智能处理控件" rules={[{ required: true }]}>
           <Select options={options} />
         </Form.Item>
       </Form>
-      <DragPage ref={imgFlowRef} />
+      <DragPage show={true} ref={imgFlowRef} />
       <Form>
         <Form.Item name="write" label="手写字智能处理控件" rules={[{ required: true }]}>
           <Select options={options} />
         </Form.Item>
       </Form>
-    </div>
+    </>
   )
 }
 export default SettingsPage
