@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { getRouteQuery } from '@/utils'
 import { FuncItemType, FuncParamsType, getAllFunctionApi, getFlowByIdApi } from '@/api'
 import { ArrowLeftOutlined } from '@ant-design/icons'
+import { getRandomString } from '@lichang666/utils'
 /** 拖拽生成页面 */
 const DragPage = forwardRef(
   (
@@ -16,6 +17,8 @@ const DragPage = forwardRef(
     },
     ref: Ref<any>
   ) => {
+    const graphId = useRef('')
+    const stencilId = useRef('')
     const navigate = useNavigate()
     const [allFunctions, setAllFunctions] = useState<FuncItemType[]>([])
     const [visible, setVisible] = useState(false)
@@ -37,7 +40,7 @@ const DragPage = forwardRef(
 
     /** 初始化画布 */
     const initGraph = () => {
-      graph.current = graphInit()
+      graph.current = graphInit(graphId.current, stencilId.current)
       graph.current.on('node:mousedown', ({ node }) => {
         if (node.shape === 'custom-rect') {
           setCurrentNode({
@@ -102,6 +105,8 @@ const DragPage = forwardRef(
     }
 
     useEffect(() => {
+      graphId.current = getRandomString(4)
+      stencilId.current = getRandomString(4)
       functionOptionsInit()
       reviewHandler()
     }, [location])
@@ -183,8 +188,12 @@ const DragPage = forwardRef(
           </div>
         )}
         <div id="container" className="relative" style={{ height: props.show ? '40vh' : '70vh' }}>
-          <div id="stencil" style={{ display: id || props.show ? 'none' : 'block' }}></div>
-          <div id="graph-container"></div>
+          <div
+            id={stencilId.current}
+            className="stencil"
+            style={{ display: id || props.show ? 'none' : 'block' }}
+          ></div>
+          <div id={graphId.current} className="graph-container"></div>
           {currentNode.nodeId && (
             <div className="absolute bg-white right-0 top-0 w-[20%] h-full p-4">
               <OptionsBox
