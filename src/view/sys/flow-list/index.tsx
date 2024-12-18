@@ -30,7 +30,7 @@ const FlowListPage = () => {
   }
 
   const toEdit = (item: ItemType) => {
-    navigate('/settings/drag?id=' + item.id)
+    navigate('/drag?id=' + item.id)
   }
 
   /** 点击测试 */

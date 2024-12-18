@@ -4,11 +4,13 @@ import { CurrentNodeType, OptionsBox, SaveDialogComp } from './components'
 import { getOrderedNodes, graphInit, nodeReview } from './utils'
 import './index.css'
 import { Button } from 'antd'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { getRouteQuery } from '@/utils'
 import { FuncItemType, FuncParamsType, getAllFunctionApi, getFlowByIdApi } from '@/api'
+import { ArrowLeftOutlined } from '@ant-design/icons'
 /** 拖拽生成页面 */
-const DragPage = () => {
+const DragPage = (props: { id?: string }) => {
+  const navigate = useNavigate()
   const [allFunctions, setAllFunctions] = useState<FuncItemType[]>([])
   const [visible, setVisible] = useState(false)
   const [funcList, setFunctList] = useState<any[]>([])
@@ -68,21 +70,27 @@ const DragPage = () => {
     if (id) {
       setId('')
     }
-    let query = getRouteQuery(location.search)
-    //回显
-    if (query && query.id) {
-      setId(query.id)
-      getFlowByIdApi(query.id).then(({ data }) => {
-        let funcions = data.data.all_function
-        nodeReview(graph.current, funcions)
-      })
+    let flowId = ''
+    if (props.id) {
+      flowId = props.id
+    } else {
+      let query = getRouteQuery(location.search)
+      if (query && query.id) {
+        flowId = query.id
+      }
     }
+    if (!flowId) return
+    setId(flowId)
+    getFlowByIdApi(flowId).then(({ data }) => {
+      let funcions = data.data.all_function
+      nodeReview(graph.current, funcions)
+    })
   }
 
   useEffect(() => {
     functionOptionsInit()
     reviewHandler()
-  }, [location])
+  }, [location, props])
 
   /** 节点改变 */
   const handleNodeChange = (changeType: 'name' | 'param', value: string, key?: string) => {
@@ -142,25 +150,34 @@ const DragPage = () => {
   }
   return (
     <>
-      {!id && (
-        <div className="flex justify-end mb-4">
+      <div className="flex justify-between mb-4">
+        <Button
+          className="float-left"
+          color="default"
+          onClick={() => navigate(-1)}
+          icon={<ArrowLeftOutlined />}
+          variant="text"
+        >
+          返回
+        </Button>
+        {!id && (
           <Button onClick={saveHandler} type="primary">
             保存
           </Button>
-        </div>
-      )}
-      <div id="container">
-        <div id="stencil"></div>
+        )}
+      </div>
+      <div id="container" className="relative">
+        <div id="stencil" style={{ display: id ? 'none' : 'block' }}></div>
         <div id="graph-container"></div>
-        <div className="w-[20%] h-full p-4">
-          {currentNode.nodeId && (
+        {currentNode.nodeId && (
+          <div className="absolute bg-white right-0 top-0 w-[20%] h-full p-4">
             <OptionsBox
               options={funcOptions}
               currentNode={currentNode}
               onChange={handleNodeChange}
             />
-          )}
-        </div>
+          </div>
+        )}
       </div>
       <SaveDialogComp
         funcList={funcList}
