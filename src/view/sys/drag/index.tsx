@@ -21,12 +21,7 @@ const DragPage = () => {
   const location = useLocation()
   const graph = useRef<Graph | null>(null)
 
-  const [funcOptions, setFunctOptions] = useState<
-    {
-      label: string
-      value: string
-    }[]
-  >([])
+  const [funcOptions, setFunctOptions] = useState<AntdSelectOption[]>([])
 
   /** 初始化画布 */
   const initGraph = () => {

@@ -3,10 +3,7 @@ import { Input, Select } from 'antd'
 import { CurrentNodeType } from './types'
 
 const OptionsBox = (props: {
-  options: {
-    label: string
-    value: string
-  }[]
+  options: AntdSelectOption[]
   currentNode: CurrentNodeType
   changeHandler: (e: string) => void
   paramsChange: (e: string, key: string) => void
