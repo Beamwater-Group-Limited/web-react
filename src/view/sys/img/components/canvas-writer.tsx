@@ -33,12 +33,15 @@ const CanvasWriter = forwardRef(
       return file
     }
 
+    /** 清空画布 */
     const clearCanvas = () => {
       const canvas = canvasRef.current
       if (!canvas) return
       const ctx = canvas.getContext('2d')
       if (!ctx) return
       ctx.clearRect(0, 0, canvas.width, canvas.height) // 清除画布
+      ctx.fillStyle = 'white' // 设置填充颜色为白色
+      ctx.fillRect(0, 0, canvas.width, canvas.height) // 填充整个画布
     }
 
     useImperativeHandle(ref, () => ({
@@ -55,11 +58,14 @@ const CanvasWriter = forwardRef(
       canvas.height = rect.height
       const ctx = canvas.getContext('2d')
       if (!ctx) return
+      // 设置背景为白色
       ctx.lineCap = 'round' // 设置线条的端点为圆形
       ctx.lineJoin = 'round' // 设置连接点为圆形
       ctx.strokeStyle = brushColor // 设置画笔颜色
       ctx.lineWidth = brushSize // 设置画笔大小
       ctx.clearRect(0, 0, canvas.width, canvas.height) // 清除画布
+      ctx.fillStyle = 'white' // 设置填充颜色为白色
+      ctx.fillRect(0, 0, canvas.width, canvas.height) // 填充整个画布
     }
 
     // 获取鼠标相对于 canvas 的位置
@@ -111,7 +117,7 @@ const CanvasWriter = forwardRef(
       <canvas
         id="canvas"
         ref={canvasRef}
-        className="w-full h-full border-neutral-800 border"
+        className="w-full h-full border-neutral-800 border z-10"
         onMouseDown={startDrawing}
         onMouseMove={draw}
         onMouseUp={stopDrawing}
