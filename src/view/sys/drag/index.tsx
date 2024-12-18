@@ -1,9 +1,9 @@
 import { Graph } from '@antv/x6'
 import { useEffect, useRef, useState } from 'react'
-import { default as SaveDialogComp } from './components/save-dialog'
+import { CurrentNodeType, OptionsBox, SaveDialogComp } from './components'
 import { getOrderedNodes, graphInit, createStencil, nodeReview } from './utils'
 import './index.css'
-import { Button, Input, Select } from 'antd'
+import { Button } from 'antd'
 import { useLocation } from 'react-router-dom'
 import { getRouteQuery } from '@/utils'
 import { FuncItemType, FuncParamsType, getAllFunctionApi, getFlowByIdApi } from '@/api'
@@ -12,11 +12,7 @@ const DragPage = () => {
   const [allFunctions, setAllFunctions] = useState<FuncItemType[]>([])
   const [visible, setVisible] = useState(false)
   const [funcList, setFunctList] = useState<any[]>([])
-  const [currentNode, setCurrentNode] = useState<{
-    nodeId: string
-    params: FuncParamsType[]
-    functionName: string
-  }>({
+  const [currentNode, setCurrentNode] = useState<CurrentNodeType>({
     nodeId: '',
     params: [],
     functionName: ''
@@ -135,17 +131,6 @@ const DragPage = () => {
         params: newParams
       }
     })
-    // if (node) {
-    //   node.setData({
-    //     params: e
-    //   })
-    //   setCurrentNode((pre) => {
-    //     return {
-    //       ...pre,
-    //       params: []
-    //     }
-    //   })
-    // }
   }
 
   const saveHandler = () => {
@@ -181,31 +166,12 @@ const DragPage = () => {
         <div id="graph-container"></div>
         <div className="w-[20%] h-full p-4">
           {currentNode.nodeId && (
-            <div className="w-full">
-              <div className="flex flex-col gap-4">
-                <span>回调</span>
-                <Select
-                  className="w-full"
-                  showSearch
-                  disabled={id !== ''}
-                  value={currentNode.functionName}
-                  onChange={(e) => changeHandler(e)}
-                  options={funcOptions}
-                />
-              </div>
-              {currentNode.params.map((item: FuncParamsType) => {
-                return (
-                  <div className="flex flex-col gap-4 mt-12" key={item.key}>
-                    <span>{item.key}</span>
-                    <Input
-                      disabled={item.is_update === '0'}
-                      value={item.default_value}
-                      onChange={(e) => paramsChange(e.target.value, item.key)}
-                    />
-                  </div>
-                )
-              })}
-            </div>
+            <OptionsBox
+              options={funcOptions}
+              currentNode={currentNode}
+              changeHandler={changeHandler}
+              paramsChange={paramsChange}
+            />
           )}
         </div>
       </div>
