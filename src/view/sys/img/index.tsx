@@ -46,14 +46,14 @@ const ImgPage = () => {
       <ImgLayout
         file={file}
         ref={imgHandleRef}
-        componentName="图片处理控件"
+        componentName="图片智能处理控件"
         showChildren={<ImgShowComp file={file} />}
         optionsChildren={<UploadArea onChange={fileChangeHandler} />}
       />
       {/* 手写部分 */}
       <ImgLayout
         file={writeFile}
-        componentName="手写处理控件"
+        componentName="手写字智能处理控件"
         showChildren={<CanvasWriter ref={writerRef} createImg={createImg} />}
         optionsChildren={<CanvasOptions onClear={clearHandler} />}
       />
