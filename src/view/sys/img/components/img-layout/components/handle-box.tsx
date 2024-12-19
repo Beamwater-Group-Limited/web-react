@@ -24,7 +24,7 @@ const HandleBox = (props: {
   return (
     <div className="border-t-[1px] lg:h-[14vh] sm:h-[15vh] border-zinc-300 flex flex-col gap-4 p-4">
       {/* 用户选择 */}
-      <div className="w-full flex items-center lg:text-base sm:text-5xl gap-4 rounded">
+      <div className="w-full flex items-center lg:text-base sm:text-5xl base:text-3xl gap-4 rounded">
         <div>输出</div>
         <Checkbox.Group
           disabled={props.status !== 'default'}

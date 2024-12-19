@@ -36,7 +36,7 @@ const MenuComp = () => {
   return (
     <Menu
       selectedKeys={[currentPath]}
-      className="lg:text-base sm:text-5xl"
+      className="lg:text-base sm:text-5xl base:text-3xl"
       mode="horizontal"
       items={items}
       onClick={({ key }) => navigate(key)}
