@@ -102,18 +102,18 @@ const ChatPage = () => {
 
   return (
     <div className="relative bg-white w-full h-full">
-      <RobotComp className="top-6 left-6" />
+      <RobotComp className="lg:top-[10vh] lg:right-[10vw] sm:top-0 sm:right-[5vw]" />
       {/* <MonitorBoxComp onCapture={captureHandler} /> */}
       {/* 流程选择器 */}
       <FlowSelectorComp
-        className="absolute top-[1vh] left-[25vw] w-[50vw]"
+        className="absolute top-[1vh] lg:left-[25vw] sm:left-[10vw] w-[50vw]"
         currentFlow={currentFlow}
         setCurrentFlow={setCurrentFlow}
       />
       {/* 对话框 */}
       <BubbleListComp bubbleList={bubbleList} setBubbleList={setBubbleList} />
       {/* 输入框 */}
-      <div className="absolute bottom-[1vh] left-[25vw] w-[50vw] z-30 bg-white">
+      <div className="absolute bottom-[1vh] lg:left-[25vw] sm:left-[10vw] lg:w-[50vw] z-30 bg-white">
         <Suggestion
           items={suggestions}
           onSelect={(itemVal) => {

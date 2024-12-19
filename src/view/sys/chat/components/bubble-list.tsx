@@ -32,7 +32,7 @@ const BubbleListComp = (props: {
 }) => {
   const listRef = useRef<GetRef<typeof Bubble.List>>(null)
   return (
-    <div className="absolute top-[8vh] left-[25vw] w-[50vw] h-[70vh] bg-slate-200 rounded p-4 overflow-auto">
+    <div className="absolute top-[8vh] lg:left-[25vw] sm:left-[5vw] lg:w-[50vw] sm:w-[80vw] lg:h-[70vh] sm:h-[60vh] bg-slate-200 rounded p-4 overflow-auto">
       <Flex gap="middle" vertical>
         <Bubble.List
           autoScroll

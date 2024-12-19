@@ -57,10 +57,10 @@ const FlowSelector = (props: {
         trigger={['click']}
       >
         <div className="inline-flex items-center gap-1 text-slate-700 cursor-pointer p-2 rounded hover:bg-slate-100">
-          <span className="text-lg font-bold">
+          <span className="lg:text-lg font-bold">
             {props.currentFlow?.data.flow_name || '请选择流程'}
           </span>
-          <DownOutlined className="text-slate-500 text-sm" />
+          <DownOutlined className="text-slate-500 lg:text-sm" />
         </div>
       </Dropdown>
     </div>
