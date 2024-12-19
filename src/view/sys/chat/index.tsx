@@ -113,7 +113,7 @@ const ChatPage = () => {
       {/* 对话框 */}
       <BubbleListComp bubbleList={bubbleList} setBubbleList={setBubbleList} />
       {/* 输入框 */}
-      <div className="absolute bottom-[1vh] lg:left-[25vw] sm:left-[10vw] lg:w-[50vw] z-30 bg-white">
+      <div className="absolute bottom-[1vh] lg:left-[25vw] base:left-[25vw] sm:left-[10vw] lg:w-[50vw] base:w-[50vw] z-30 bg-white">
         <Suggestion
           items={suggestions}
           onSelect={(itemVal) => {
