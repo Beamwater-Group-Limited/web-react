@@ -75,14 +75,16 @@ export const graphInit = (id: string, stencilId: string) => {
     }
   }
   graphContainer.on('node:mouseenter', () => {
-    const container = document.getElementById('graph-container')!
+    const container = document.getElementById('graph-container')
+    if (!container) return
     const ports = container.querySelectorAll('.x6-port-body') as NodeListOf<SVGElement>
     ports && showPorts(ports, true)
   })
   graphContainer.on('node:mouseleave', () => {
-    const container = document.getElementById('graph-container')!
+    const container = document.getElementById('graph-container')
+    if (!container) return
     const ports = container.querySelectorAll('.x6-port-body') as NodeListOf<SVGElement>
-    showPorts(ports, false)
+    ports && showPorts(ports, false)
   })
   graphContainer.use(new Keyboard()).use(
     new Selection({
