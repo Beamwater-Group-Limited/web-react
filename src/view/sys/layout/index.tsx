@@ -13,7 +13,7 @@ const LayoutDom = () => {
   const { Header, Content } = Layout
   return (
     <Layout className="w-full h-full">
-      <Header className="bg-white border-0 border-b-[1px] border-solid border-slate-200 flex items-center justify-center">
+      <Header className="bg-white border-0 border-b-[1px] border-solid border-slate-200">
         <MenuComp />
       </Header>
       <Layout>
