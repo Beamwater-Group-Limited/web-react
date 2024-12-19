@@ -1,4 +1,4 @@
-import { Button, Watermark } from 'antd'
+import { Button, message, Watermark } from 'antd'
 import { HandleBox, ImgShowComp, StatusTag } from './components'
 import { forwardRef, Ref, useImperativeHandle, useState } from 'react'
 import { imgHandleApi } from '@/api'
@@ -47,7 +47,7 @@ const ImgHandleComp = forwardRef(
 
     /** 点击处理 */
     const onHandle = () => {
-      if (!props.flowId) return
+      if (!props.flowId) return message.warning('请先选择流程')
       if (props.file) {
         setLoading(true)
         setStatus('processing')
