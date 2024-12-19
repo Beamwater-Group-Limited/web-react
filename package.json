@@ -9,8 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint . --ignore-pattern .gitignore",
     "format": "prettier --write src/",
-    "prepare": "husky install",
-    "preinstall": "node ./preinstall.js"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.6",
