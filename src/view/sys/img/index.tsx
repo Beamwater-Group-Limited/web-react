@@ -2,8 +2,9 @@ import ExampleImg from '@/assets/images/example.png'
 import RobotComp from '@/components/robot'
 import { CanvasOptions, CanvasWriter, ImgLayout, UploadArea, TeachingVideo } from './components'
 import { ImgShowComp } from './components/img-layout/components'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Button } from 'antd'
+import { getComponentSettingApi } from '@/api'
 
 /** 图片页面 */
 const ImgPage = () => {
@@ -11,6 +12,8 @@ const ImgPage = () => {
   const [writeFile, setWriteFile] = useState<File | null>(null) //手写的图片
   const [videoVisible, setVideoVisible] = useState(false) //教学视频弹窗
   const imgHandleRef = useRef<any>()
+  const [imgFlowId, setImgFlowId] = useState('')
+  const [writeFlowId, setWriteFlowId] = useState('')
   const writerRef = useRef<any>()
   /** 文件改变 */
   const fileChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +34,25 @@ const ImgPage = () => {
   const createImg = (file: File) => {
     setWriteFile(file)
   }
+
+  /** 获取组件配置 */
+  const getComponentsSettings = () => {
+    getComponentSettingApi().then(({ info, data }) => {
+      if (info.status === 200) {
+        data.forEach((item) => {
+          if (item.component === '图片智能处理控件') {
+            setImgFlowId(item.flow)
+          } else if (item.component === '手写字智能处理控件') {
+            setWriteFlowId(item.flow)
+          }
+        })
+      }
+    })
+  }
+
+  useEffect(() => {
+    getComponentsSettings()
+  }, [])
 
   return (
     <div className="relative bg-white w-full flex flex-col gap-4 items-center">
@@ -56,6 +78,7 @@ const ImgPage = () => {
         </Button>
       </div>
       <ImgLayout
+        flowId={writeFlowId}
         file={writeFile}
         componentName="手写字智能处理控件"
         showChildren={<CanvasWriter ref={writerRef} createImg={createImg} />}
@@ -69,6 +92,7 @@ const ImgPage = () => {
         </Button>
       </div>
       <ImgLayout
+        flowId={imgFlowId}
         file={file}
         ref={imgHandleRef}
         componentName="图片智能处理控件"

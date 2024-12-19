@@ -11,7 +11,7 @@ export const runApi = async (
     image_input: string
   }>
 > => {
-  return fetch('http://192.168.0.100:8080/v1/run_flow', {
+  return fetch('http://119.45.31.65:28481/v1/run_flow', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -22,7 +22,7 @@ export const runApi = async (
 
 /** 处理借口 */
 export const imgHandleApi = async (data: HandleApiType): Promise<ApiResponseType<any>> => {
-  return fetch('http://192.168.0.100:8080/v1/image_processing_flow_run', {
+  return fetch('http://119.45.31.65:28481/v1/image_processing_flow_run', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
