@@ -22,9 +22,9 @@ const HandleBox = (props: {
   ] //下拉框
 
   return (
-    <div className="border-t-[1px] h-[14vh] border-zinc-300 flex flex-col gap-4 p-4">
+    <div className="border-t-[1px] lg:h-[14vh] sm:h-[15vh] border-zinc-300 flex flex-col gap-4 p-4">
       {/* 用户选择 */}
-      <div className="w-full flex items-center gap-4 border-r-[1px] rounded">
+      <div className="w-full flex items-center lg:text-base sm:text-5xl gap-4 rounded">
         <div>输出</div>
         <Checkbox.Group
           disabled={props.status !== 'default'}
@@ -45,7 +45,7 @@ const HandleBox = (props: {
             onClick={soundHandler}
             disabled={props.status !== 'success' || !props.soundUrl || !props.output.includes('3')}
           >
-            朗读
+            <span className="lg:text-base sm:text-5xl">朗读</span>
           </Button>
         )}
       </div>

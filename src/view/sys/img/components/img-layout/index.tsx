@@ -96,42 +96,40 @@ const ImgHandleComp = forwardRef(
     }
 
     return (
-      <div className="h-[70vh] w-[80vw] border-[1px] border-zinc-300 rounded bg-slate-50">
+      <div className="w-[80vw] border-[1px] border-zinc-300 rounded bg-slate-50">
         <Watermark content={props.componentName} className="w-full h-full grid grid-cols-2">
           <div className="h-full border-r-[1px] border-zinc-300">
             {/* 图片展示区域 */}
-            <div className="w-full h-[56vh] overflow-auto p-4 flex items-center justify-center">
+            <div className="w-full lg:h-[56vh] sm:h-[30vh] overflow-auto p-4 flex items-center justify-center">
               {props.showChildren}
-              {/* <ImgShowComp file={file} /> */}
             </div>
             {/* 上传区域 */}
-            <div className="w-full h-[14vh] relative border-t-[1px] border-zinc-300 flex">
+            <div className="w-full lg:h-[14vh] sm:h-[15vh] flex lg:flex-row sm:flex-col lg:gap-4 sm:gap-[10px] relative border-t-[1px] border-zinc-300">
               {props.optionsChildren}
-              <div className="w-[20%] h-full flex items-center justify-center">
+              <div className="lg:w-[20%] lg:h-full sm:h-[5vh] flex items-center justify-center">
                 <Button
                   type="primary"
                   disabled={!props.file || output.length === 0}
-                  size="large"
                   onClick={onHandle}
                   loading={loading}
                 >
-                  处理
+                  <span className="lg:text-base sm:text-5xl">处理</span>
                 </Button>
               </div>
             </div>
           </div>
           <div className="h-full">
-            <div className="text-xl text-zinc-700 tracking-[2px] h-[80%]">
+            <div className="text-xl text-zinc-700 tracking-[2px]">
               {/* 处理结果的图片 */}
-              <div className="h-[40vh] overflow-auto border-b-[1px] flex items-center justify-center">
+              <div className="lg:h-[40vh] sm:h-[20vh] overflow-auto border-b-[1px] flex items-center justify-center">
                 <ImgShowComp file={handledImg} />
               </div>
               {/* 处理结果的文字 */}
-              <div className="h-[16vh] w-full flex">
-                <div className="w-[30%] border-r-[1px] flex items-center justify-center">
+              <div className="lg:h-[16vh] sm:h-[10vh] w-full flex">
+                <div className="lg:w-[30%] sm:w-[45%] border-r-[1px] flex items-center justify-center">
                   <StatusTag status={status} />
                 </div>
-                <div className="w-[70%] p-2">{resultTxt}</div>
+                <div className="lg:w-[70%] sm:w-[55%] p-2">{resultTxt}</div>
               </div>
             </div>
             {/* 处理框 */}

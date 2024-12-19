@@ -17,8 +17,8 @@ const LayoutDom = () => {
         <MenuComp />
       </Header>
       <Layout>
-        <Content className="lg:p-4">
-          <div className="w-full h-full bg-white p-4 rounded-md shadow-lg overflow-auto">
+        <Content className="lg:p-4 sm:p-[10px]">
+          <div className="w-full h-full bg-white lg:p-4 rounded-md shadow-lg overflow-auto sm:p-[12px]">
             <Outlet />
           </div>
         </Content>

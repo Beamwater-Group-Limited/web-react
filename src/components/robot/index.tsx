@@ -6,7 +6,7 @@ const RobotComp = (props: { className?: string }) => {
   return (
     <div
       onClick={() => navigate('/settings')}
-      className={`${RobotStyleObject['robot-box']} absolute w-[5vw] cursor-pointer h-[10vh] ${props.className}`}
+      className={`${RobotStyleObject['robot-box']} fixed lg:w-[5vw] sm:w-[20vw] cursor-pointer lg:h-[10vh] sm:h-[15vh] ${props.className}`}
     ></div>
   )
 }
