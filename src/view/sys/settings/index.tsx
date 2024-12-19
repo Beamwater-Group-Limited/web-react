@@ -1,5 +1,5 @@
-import { Button, Form, Select } from 'antd'
-import { FlowItemType, getAllFlowApi } from '@/api'
+import { Button, Form, message, Select } from 'antd'
+import { componentSettingSaveApi, FlowItemType, getAllFlowApi } from '@/api'
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
@@ -23,12 +23,26 @@ const SettingsPage = () => {
   const [writeFlow, setWriteFlow] = useState('')
 
   /** 点击保存 */
-  const saveHandler = () => {
-    imgSettingsForm.validateFields().then((values) => {
-      console.log(values)
-    })
-    writeSettingsForm.validateFields().then((values) => {
-      console.log(values)
+  const saveHandler = async () => {
+    const { img } = await imgSettingsForm.validateFields()
+    const { write } = await writeSettingsForm.validateFields()
+    if (!img || !write) return message.warning('请选择流程')
+    componentSettingSaveApi([
+      {
+        component: '图片智能处理控件',
+        flow: img
+      },
+      {
+        component: '手写字智能处理控件',
+        flow: write
+      }
+    ]).then((res) => {
+      if (res.info.status === 200) {
+        message.success('保存成功')
+        navigate(-1)
+      } else {
+        message.error(res.info.name)
+      }
     })
   }
 
@@ -41,7 +55,7 @@ const SettingsPage = () => {
   /** 手写提 */
   const writeFlowChange = (value: string) => {
     setWriteFlow(value)
-    imgFlowRef.current?.drawById(value)
+    writeFlowRef.current?.drawById(value)
   }
 
   /** 初始化选项 */
