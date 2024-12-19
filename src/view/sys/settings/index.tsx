@@ -1,5 +1,5 @@
 import { Button, Form, message, Select } from 'antd'
-import { componentSettingSaveApi, FlowItemType, getAllFlowApi } from '@/api'
+import { componentSettingSaveApi, FlowItemType, getAllFlowApi, getComponentSettingApi } from '@/api'
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router-dom'
@@ -74,8 +74,30 @@ const SettingsPage = () => {
     })
   }
 
+  /** 回显 */
+  const optionsReview = () => {
+    getComponentSettingApi().then(({ data, info }) => {
+      if (info.status === 200) {
+        data.forEach((item) => {
+          if (item.component === '图片智能处理控件') {
+            setImgFlow(item.flow)
+            imgFlowRef.current?.drawById(item.flow)
+            imgSettingsForm.setFieldValue('img', item.flow)
+          } else if (item.component === '手写字智能处理控件') {
+            setWriteFlow(item.flow)
+            writeFlowRef.current?.drawById(item.flow)
+            writeSettingsForm.setFieldValue('write', item.flow)
+          }
+        })
+      } else {
+        message.error('获取配置失败')
+      }
+    })
+  }
+
   useEffect(() => {
     initOptions()
+    optionsReview()
   }, [])
 
   return (
