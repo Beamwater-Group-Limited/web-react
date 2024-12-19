@@ -1,13 +1,15 @@
 import ExampleImg from '@/assets/images/example.png'
 import RobotComp from '@/components/robot'
-import { CanvasOptions, CanvasWriter, ImgLayout, UploadArea } from './components'
+import { CanvasOptions, CanvasWriter, ImgLayout, UploadArea, TeachingVideo } from './components'
 import { ImgShowComp } from './components/img-layout/components'
 import { useRef, useState } from 'react'
+import { Button } from 'antd'
 
 /** 图片页面 */
 const ImgPage = () => {
   const [file, setFile] = useState<File | null>(null) //选择的图片
   const [writeFile, setWriteFile] = useState<File | null>(null) //手写的图片
+  const [videoVisible, setVideoVisible] = useState(false) //教学视频弹窗
   const imgHandleRef = useRef<any>()
   const writerRef = useRef<any>()
   /** 文件改变 */
@@ -43,16 +45,26 @@ const ImgPage = () => {
         </div>
         <img src={ExampleImg} className="w-[30vw] h-[30vw]" />
       </div>
-      <h1 className="text-2xl font-bold">基于多层感知机（MLP）的手写体字符识别</h1>
       {/* 手写部分 */}
+      <div className="flex items-center justify-center gap-4">
+        <h1 className="text-2xl font-bold">基于多层感知机（MLP）的手写体字符识别</h1>
+        <Button onClick={() => setVideoVisible(true)} color="primary" variant="text">
+          视频教学
+        </Button>
+      </div>
       <ImgLayout
         file={writeFile}
         componentName="手写字智能处理控件"
         showChildren={<CanvasWriter ref={writerRef} createImg={createImg} />}
         optionsChildren={<CanvasOptions onClear={clearHandler} />}
       />
-      <h1 className="text-2xl font-bold mt-[10vh]">基于多层感知机（MLP）的图片智能识别</h1>
       {/* 处理部分 */}
+      <div className="flex items-center justify-center gap-4 mt-[10vh]">
+        <h1 className="text-2xl font-bold">基于多层感知机（MLP）的图片智能识别</h1>
+        <Button onClick={() => setVideoVisible(true)} color="primary" variant="text">
+          视频教学
+        </Button>
+      </div>
       <ImgLayout
         file={file}
         ref={imgHandleRef}
@@ -60,6 +72,8 @@ const ImgPage = () => {
         showChildren={<ImgShowComp file={file} />}
         optionsChildren={<UploadArea onChange={fileChangeHandler} />}
       />
+      {/* 教学视频预览 */}
+      <TeachingVideo videoVisible={videoVisible} setVideoVisible={setVideoVisible} />
     </div>
   )
 }
