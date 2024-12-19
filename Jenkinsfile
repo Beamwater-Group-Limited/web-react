@@ -25,7 +25,7 @@ pipeline {
 //               sh 'export https_proxy="http://192.168.0.125:1087" export http_proxy="http://192.168.0.125:1087"'
               sh "yarn -v"
               sh "yarn install --ignore-engines"
-              sh "yarn run generate"
+              sh "yarn run build"
               }
             }
         }
