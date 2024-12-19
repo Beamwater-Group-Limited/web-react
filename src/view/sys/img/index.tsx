@@ -102,13 +102,13 @@ const ImgPage = () => {
       />
       {/* 手写教学视频预览 */}
       <TeachingVideo
-        videoPath=""
+        videoPath="http://www.beamwater.cn:33030/gens/course1.mp4"
         videoVisible={writeVideoVisible}
         setVideoVisible={setWriteVideoVisible}
       />
       {/* 图片处理教学视频预览 */}
       <TeachingVideo
-        videoPath=""
+        videoPath="http://www.beamwater.cn:33030/gens/course2.mp4"
         videoVisible={imgHandleVideoVisible}
         setVideoVisible={setImgHandleVideoVisible}
       />
