@@ -5,6 +5,7 @@ const CanvasWriter = forwardRef(
   (
     props: {
       createImg: (file: File) => void
+      reset: () => void
     },
     ref: Ref<any>
   ) => {
@@ -99,6 +100,7 @@ const CanvasWriter = forwardRef(
       ctx.beginPath() // 开始路径
       ctx.moveTo(x, y) // 设置绘制起始点
       setIsDrawing(true) // 开始绘制
+      props.reset()
     }
 
     // 绘制路径

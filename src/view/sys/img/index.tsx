@@ -12,10 +12,11 @@ const ImgPage = () => {
   const [writeFile, setWriteFile] = useState<File | null>(null) //手写的图片
   const [writeVideoVisible, setWriteVideoVisible] = useState(false) //手写教学视频弹窗
   const [imgHandleVideoVisible, setImgHandleVideoVisible] = useState(false) // 图片处理弹窗
-  const imgHandleRef = useRef<any>()
+  const imgHandleRef = useRef<any>() //图片处理布局组件
   const [imgFlowId, setImgFlowId] = useState('')
   const [writeFlowId, setWriteFlowId] = useState('')
-  const writerRef = useRef<any>()
+  const writerRef = useRef<any>() //手写框组件
+  const writerLayoutRef = useRef<any>() //手写框布局组件
   /** 文件改变 */
   const fileChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     let files = e.target.files
@@ -29,6 +30,12 @@ const ImgPage = () => {
   const clearHandler = () => {
     if (!writerRef.current) return
     writerRef.current.clearCanvas()
+    writerLayoutRef.current?.reset()
+  }
+
+  /** 重置手写识别状态 */
+  const writeResetHandler = () => {
+    writerLayoutRef.current?.reset()
   }
 
   /** 每次停止手写时会生成图片 */
@@ -79,10 +86,13 @@ const ImgPage = () => {
         </Button>
       </div>
       <ImgLayout
+        ref={writerLayoutRef}
         flowId={writeFlowId}
         file={writeFile}
         componentName="手写字智能处理控件"
-        showChildren={<CanvasWriter ref={writerRef} createImg={createImg} />}
+        showChildren={
+          <CanvasWriter reset={writeResetHandler} ref={writerRef} createImg={createImg} />
+        }
         optionsChildren={<CanvasOptions onClear={clearHandler} />}
       />
       {/* 处理部分 */}
