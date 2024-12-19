@@ -8,6 +8,7 @@ const UploadArea = (props: { onChange: (e: React.ChangeEvent<HTMLInputElement>) 
       <p className="lg:text-base sm:text-4xl">点击或拖拽文件至此区域上传</p>
       <p className="lg:text-sm sm:text-3xl">支持 jpg、png、gif 等常见图片格式</p>
       <input
+        accept="image/*"
         onChange={props.onChange}
         className="w-full opacity-0 h-full sm:h-[7.5vh] absolute top-0 left-0 cursor-pointer"
         type="file"
