@@ -23,7 +23,14 @@ const SettingsPage = () => {
   const [writeFlow, setWriteFlow] = useState('')
 
   /** 点击保存 */
-  const saveHandler = () => {}
+  const saveHandler = () => {
+    imgSettingsForm.validateFields().then((values) => {
+      console.log(values)
+    })
+    writeSettingsForm.validateFields().then((values) => {
+      console.log(values)
+    })
+  }
 
   /** 图片流程改变时 */
   const imgFlowChange = (value: string) => {
