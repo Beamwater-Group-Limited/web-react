@@ -34,7 +34,7 @@ const ImgPage = () => {
 
   return (
     <div className="relative bg-white w-full flex flex-col gap-4 items-center">
-      <RobotComp className="top-[10vh] right-[5vw]" />
+      <RobotComp className="lg:top-[10vh] right-[5vw] sm:bottom-[50vh]" />
       <div className="flex items-center lg:flex-row sm:flex-col gap-4">
         <div className="lg:w-[30vw] sm:w-full lg:text-xl sm:text-5xl tracking-[2px] indent-8 lg:leading-8 sm:leading-[20px]">
           多层感知机（MLP）是一种经典的神经网络模型，广泛应用于手写体字符识别等任务。其结构包括输入层、隐藏层和输出层，通过全连接方式将每一层的神经元连接起来。手写体字符识别通常以像素值作为输入，将二维图像数据展平为一维向量，然后输入
