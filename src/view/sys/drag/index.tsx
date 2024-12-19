@@ -13,7 +13,7 @@ import { getRandomString } from '@lichang666/utils'
 const DragPage = forwardRef(
   (
     props: {
-      show: boolean
+      show: boolean // 是否是展示模式
     },
     ref: Ref<any>
   ) => {

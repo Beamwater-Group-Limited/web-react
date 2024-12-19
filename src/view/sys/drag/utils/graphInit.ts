@@ -77,7 +77,7 @@ export const graphInit = (id: string, stencilId: string) => {
   graphContainer.on('node:mouseenter', () => {
     const container = document.getElementById('graph-container')!
     const ports = container.querySelectorAll('.x6-port-body') as NodeListOf<SVGElement>
-    showPorts(ports, true)
+    ports && showPorts(ports, true)
   })
   graphContainer.on('node:mouseleave', () => {
     const container = document.getElementById('graph-container')!
