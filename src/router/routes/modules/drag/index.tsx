@@ -6,7 +6,7 @@ const DragModule: MenuItemType = {
   path: 'drag',
   icon: <HomeOutlined />,
   hidden: true,
-  element: <DragPage />
+  element: <DragPage show={false} />
 }
 
 export default DragModule
