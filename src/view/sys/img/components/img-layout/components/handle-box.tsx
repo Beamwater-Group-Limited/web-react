@@ -41,7 +41,6 @@ const HandleBox = (props: {
           <Button
             type="primary"
             icon={<SoundOutlined />}
-            size="large"
             onClick={soundHandler}
             disabled={props.status !== 'success' || !props.soundUrl || !props.output.includes('3')}
           >
