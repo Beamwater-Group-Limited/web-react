@@ -85,7 +85,9 @@ const DragPage = forwardRef(
         })
         setAllFunctions(funcs)
         setFunctOptions(list)
-        initGraph()
+        setTimeout(() => {
+          initGraph()
+        })
       })
     }
 
