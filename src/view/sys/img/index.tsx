@@ -10,7 +10,8 @@ import { getComponentSettingApi } from '@/api'
 const ImgPage = () => {
   const [file, setFile] = useState<File | null>(null) //选择的图片
   const [writeFile, setWriteFile] = useState<File | null>(null) //手写的图片
-  const [videoVisible, setVideoVisible] = useState(false) //教学视频弹窗
+  const [writeVideoVisible, setWriteVideoVisible] = useState(false) //手写教学视频弹窗
+  const [imgHandleVideoVisible, setImgHandleVideoVisible] = useState(false) // 图片处理弹窗
   const imgHandleRef = useRef<any>()
   const [imgFlowId, setImgFlowId] = useState('')
   const [writeFlowId, setWriteFlowId] = useState('')
@@ -73,7 +74,7 @@ const ImgPage = () => {
       {/* 手写部分 */}
       <div className="flex items-center justify-center gap-4 base:mt-[5vh]">
         <h1 className="lg:text-2xl sm:text-5xl font-bold">基于多层感知机（MLP）的手写体字符识别</h1>
-        <Button onClick={() => setVideoVisible(true)} color="primary" variant="text">
+        <Button onClick={() => setWriteVideoVisible(true)} color="primary" variant="text">
           视频教学
         </Button>
       </div>
@@ -87,7 +88,7 @@ const ImgPage = () => {
       {/* 处理部分 */}
       <div className="flex items-center justify-center gap-4 lg:mt-[10vh] sm:mt-[5vh]">
         <h1 className="lg:text-2xl sm:text-5xl font-bold">基于多层感知机（MLP）的图片智能识别</h1>
-        <Button onClick={() => setVideoVisible(true)} color="primary" variant="text">
+        <Button onClick={() => setImgHandleVideoVisible(true)} color="primary" variant="text">
           视频教学
         </Button>
       </div>
@@ -99,8 +100,18 @@ const ImgPage = () => {
         showChildren={<ImgShowComp file={file} />}
         optionsChildren={<UploadArea onChange={fileChangeHandler} />}
       />
-      {/* 教学视频预览 */}
-      <TeachingVideo videoVisible={videoVisible} setVideoVisible={setVideoVisible} />
+      {/* 手写教学视频预览 */}
+      <TeachingVideo
+        videoPath=""
+        videoVisible={writeVideoVisible}
+        setVideoVisible={setWriteVideoVisible}
+      />
+      {/* 图片处理教学视频预览 */}
+      <TeachingVideo
+        videoPath=""
+        videoVisible={imgHandleVideoVisible}
+        setVideoVisible={setImgHandleVideoVisible}
+      />
     </div>
   )
 }

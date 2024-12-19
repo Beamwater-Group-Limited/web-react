@@ -1,6 +1,7 @@
 import { Image } from 'antd'
 /** 教学视频预览 */
 const TeachingVideo = (props: {
+  videoPath: string
   videoVisible: boolean
   setVideoVisible: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
@@ -12,14 +13,7 @@ const TeachingVideo = (props: {
       preview={{
         visible: props.videoVisible,
         destroyOnClose: true,
-        imageRender: () => (
-          <video
-            muted
-            width="100%"
-            controls
-            src="https://mdn.alipayobjects.com/huamei_iwk9zp/afts/file/A*uYT7SZwhJnUAAAAAAAAAAAAADgCCAQ"
-          />
-        ),
+        imageRender: () => <video muted width="100%" controls src={props.videoPath} />,
         toolbarRender: () => null,
         onVisibleChange: (value) => {
           props.setVideoVisible(value)
