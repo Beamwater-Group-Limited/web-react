@@ -3,7 +3,7 @@ import { Menu } from 'antd'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 const MenuComp = () => {
-  const menuList = routes.find((item) => item.path === '/') as MenuItemType
+  const menuList = routes.find((item) => item.path === 'demo') as MenuItemType
   /** 创建菜单 */
   const createItems = (
     menu: MenuItemType
@@ -11,13 +11,13 @@ const MenuComp = () => {
     if (menu.hidden) return null
     if (!menu.children || menu.children.length === 0) {
       return {
-        key: menu.path === '/' ? '/' : `/${menu.path}`,
+        key: menu.path,
         label: menu.name,
         icon: menu.icon || ''
       }
     }
     return {
-      key: menu.path === '/' ? '/' : `/${menu.path}`,
+      key: menu.path,
       label: menu.name,
       icon: menu.icon || '',
       children: menu.children.map((item) => createItems(item))

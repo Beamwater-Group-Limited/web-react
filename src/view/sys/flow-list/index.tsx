@@ -22,7 +22,7 @@ const FlowListPage = () => {
   }
 
   const toEdit = (item: FlowItemType) => {
-    navigate('/drag?id=' + item.id)
+    navigate('/demo/drag?id=' + item.id)
   }
 
   /** 点击测试 */
@@ -83,7 +83,7 @@ const FlowListPage = () => {
         >
           返回
         </Button>
-        <Button type="primary" onClick={() => navigate('/drag')}>
+        <Button type="primary" onClick={() => navigate('/demo/drag')}>
           新增流程
         </Button>
       </div>

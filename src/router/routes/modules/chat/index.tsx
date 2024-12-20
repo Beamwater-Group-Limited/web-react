@@ -3,7 +3,7 @@ import { AudioOutlined } from '@ant-design/icons'
 const ChatModule: MenuItemType = {
   order: 1,
   name: '聊天语音页面',
-  path: 'chat',
+  path: '/demo/chat',
   icon: <AudioOutlined />,
   element: <ChatPage />
 }

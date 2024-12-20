@@ -3,7 +3,7 @@ import { PlayCircleOutlined } from '@ant-design/icons'
 const VideoStreamModule: MenuItemType = {
   order: 5,
   name: '视频流处理页面',
-  path: 'video-stream',
+  path: '/demo/video-stream',
   icon: <PlayCircleOutlined />,
   element: <VideoStream />
 }

@@ -5,7 +5,7 @@ const RobotComp = (props: { className?: string }) => {
   const navigate = useNavigate()
   return (
     <div
-      onClick={() => navigate('/settings')}
+      onClick={() => navigate('/demo/settings')}
       className={`fixed lg:w-[6vw] base:w-[8vw] sm:w-[20vw] cursor-pointer lg:h-[15vh] base:h-[15vh] sm:h-[15vh] flex flex-col items-center justify-center ${props.className}`}
     >
       <div className={`${RobotStyleObject['robot-box']} w-full h-full`}></div>

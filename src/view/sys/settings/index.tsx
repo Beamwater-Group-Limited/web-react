@@ -112,7 +112,7 @@ const SettingsPage = () => {
           返回
         </Button>
         <div className="flex gap-4">
-          <Button type="primary" onClick={() => navigate('/flow-list')}>
+          <Button type="primary" onClick={() => navigate('/demo/flow-list')}>
             流程管理
           </Button>
           <Button type="primary" onClick={saveHandler}>
