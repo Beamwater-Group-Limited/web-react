@@ -4,7 +4,7 @@ pipeline {
     environment {
         registry = "cbtai-hao.tencentcloudcr.com/cbtai"
         name = 'web-react'
-        tag = "0.0.4"
+        tag = "0.0.5"
         // dev表示开发状态 prod表示发布状态
 //         build = 'dev'
          build = 'dev'

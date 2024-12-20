@@ -3,7 +3,7 @@ import RobotComp from '@/components/robot'
 import { CanvasOptions, CanvasWriter, ImgLayout, UploadArea, TeachingVideo } from './components'
 import { ImgShowComp } from './components/img-layout/components'
 import { useEffect, useRef, useState } from 'react'
-import { Button } from 'antd'
+import { Button, Popover } from 'antd'
 import { getComponentSettingApi } from '@/api'
 
 /** 图片页面 */
@@ -17,6 +17,7 @@ const ImgPage = () => {
   const [writeFlowId, setWriteFlowId] = useState('')
   const writerRef = useRef<any>() //手写框组件
   const writerLayoutRef = useRef<any>() //手写框布局组件
+  const [open, setOpen] = useState(false) //机器人说话
   /** 文件改变 */
   const fileChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     let files = e.target.files
@@ -60,11 +61,23 @@ const ImgPage = () => {
 
   useEffect(() => {
     getComponentsSettings()
+    setOpen(true)
+    setTimeout(() => {
+      setOpen(false)
+    }, 5000)
   }, [])
 
   return (
     <div className="relative bg-white w-full flex flex-col gap-4 items-center">
-      <RobotComp className="lg:top-[10vh] right-[5vw] sm:bottom-[50vh] base:top-0" />
+      <Popover
+        content={<span>点击我进行流程配置</span>}
+        placement="left"
+        trigger="click"
+        open={open}
+        onOpenChange={(open) => setOpen(open)}
+      >
+        <RobotComp className="lg:top-[10vh] right-[5vw] sm:bottom-[50vh] base:top-0" />
+      </Popover>
       <div className="flex items-center lg:flex-row base:flex-row sm:flex-col gap-4">
         <div className="lg:w-[30vw] flex-1 sm:w-full lg:text-xl sm:text-5xl base:text-3xl tracking-[2px] indent-8 lg:leading-8 sm:leading-[20px]">
           多层感知机（MLP）是一种经典的神经网络模型，广泛应用于手写体字符识别等任务。其结构包括输入层、隐藏层和输出层，通过全连接方式将每一层的神经元连接起来。手写体字符识别通常以像素值作为输入，将二维图像数据展平为一维向量，然后输入
