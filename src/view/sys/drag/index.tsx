@@ -1,9 +1,9 @@
 import { Graph } from '@antv/x6'
 import { forwardRef, Ref, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { CurrentNodeType, OptionsBox, SaveDialogComp } from './components'
-import { getOrderedNodes, graphInit, nodeReview } from './utils'
+import { getOrderedNodes, graphInit, nodeReview, validateGraph } from './utils'
 import './index.css'
-import { Button } from 'antd'
+import { Button, message } from 'antd'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getRouteQuery } from '@/utils'
 import { FuncItemType, FuncParamsType, getAllFunctionApi, getFlowByIdApi } from '@/api'
@@ -165,16 +165,21 @@ const DragPage = forwardRef(
     /** 保存 */
     const saveHandler = () => {
       if (!graph.current) return
-      const nodes = getOrderedNodes(graph.current) as any
-      const funcs = nodes.filter((item: any) => item !== undefined && item.functionName !== '')
-      const a = funcs.map((item: any) => {
-        return {
-          ...allFunctions.find((i: any) => i.function_name === item.functionName),
-          parameters: item.params
-        }
-      })
-      setFunctList(a)
-      setVisible(true)
+      let result = validateGraph(graph.current)
+      if (result === '') {
+        const nodes = getOrderedNodes(graph.current) as any
+        const funcs = nodes.filter((item: any) => item !== undefined && item.functionName !== '')
+        const a = funcs.map((item: any) => {
+          return {
+            ...allFunctions.find((i: any) => i.function_name === item.functionName),
+            parameters: item.params
+          }
+        })
+        setFunctList(a)
+        setVisible(true)
+      } else {
+        message.warning(result)
+      }
     }
     return (
       <>
