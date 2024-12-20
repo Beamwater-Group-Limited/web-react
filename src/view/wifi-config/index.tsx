@@ -65,18 +65,18 @@ const WifiConfigPage = () => {
   const onFinish = (value: any) => {
     setLoading(true)
     fetch(
-      `http://192.168.0.100:5000/connect_wifi?wifi_name=${value.wifi}&password=${value.password}`
+      `http://192.168.50.1:5000/connect_wifi?wifi_name=${value.wifi}&password=${value.password}`
     ).then((data) => {
       if (data.status === 200) {
         setLoading(false)
         message.success('连接成功')
-        fetch('http://192.168.0.100:5000/get_wifi_ip')
+        fetch('http://192.168.50.1:5000/get_wifi_ip')
           .then((res) => res.json())
           .then((data) => {
             let i = data.ip_address
             if (i) {
               setIp(data.ip_address)
-              fetch('192.168.0.100:5000/connected_test').then((data) => {
+              fetch('192.168.50.1:5000/connected_test').then((data) => {
                 if (data.status === 200) {
                   setConnect(true)
                 } else {
@@ -94,7 +94,7 @@ const WifiConfigPage = () => {
 
   useEffect(() => {
     setLoading(true)
-    fetch('http://192.168.0.100:5000/get_all_wifi', {
+    fetch('http://192.168.50.1:5000/get_all_wifi', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
