@@ -1,6 +1,7 @@
 import { useRoutes } from 'react-router-dom'
 import LayoutDom from '@/view/sys/layout'
 import { AppRoutes } from './modules'
+import WifiConfigPage from '@/view/wifi-config'
 
 export const routes: MenuItemType[] = [
   {
@@ -8,6 +9,11 @@ export const routes: MenuItemType[] = [
     name: '欢迎',
     element: <LayoutDom />,
     children: AppRoutes
+  },
+  {
+    path: 'wifi-setting',
+    name: 'WiFi设置',
+    element: <WifiConfigPage />
   }
 ]
 
