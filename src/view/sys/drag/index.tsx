@@ -56,6 +56,13 @@ const DragPage = forwardRef(
           })
         }
       })
+      graph.current.on('blank:mousedown', () => {
+        setCurrentNode({
+          nodeId: '',
+          params: [],
+          functionName: ''
+        })
+      })
     }
 
     const drawById = (flowId: string) => {
