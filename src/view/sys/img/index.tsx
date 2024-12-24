@@ -76,7 +76,7 @@ const ImgPage = () => {
         open={open}
         onOpenChange={(open) => setOpen(open)}
       >
-        <RobotComp className="lg:top-[10vh] right-[5vw] sm:bottom-[50vh] base:top-0" />
+        <RobotComp className="lg:top-[0vh] right-[5vw] sm:bottom-[50vh] base:top-0" />
       </Popover>
       <div className="flex items-center lg:flex-row base:flex-row sm:flex-col gap-4">
         <div className="lg:w-[30vw] flex-1 sm:w-full lg:text-xl sm:text-5xl base:text-3xl tracking-[2px] indent-8 lg:leading-8 sm:leading-[20px]">
