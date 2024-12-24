@@ -46,12 +46,14 @@ const VideoStreamPage = () => {
       <div className="flex justify-center gap-4 mt-[5vh]">
         {/* 视频流智能处理控件1 */}
         <VideoStreamComp
+          videoPath="http://www.beamwater.cn:33030/gens/course3.mp4"
           compName="视频流智能处理控件1"
           rtsp={rtsp1?.rtsp}
           flowId={rtsp1?.flow || ''}
         />
         {/* 视频流智能处理控件2 */}
         <VideoStreamComp
+          videoPath="http://www.beamwater.cn:33030/gens/course3.mp4"
           compName="视频流智能处理控件2"
           rtsp={rtsp2?.rtsp}
           flowId={rtsp2?.flow || ''}
