@@ -14,12 +14,18 @@ const VideoStreamPage = () => {
   const [rtsp2Loading, setRtsp2Loading] = useState(false)
   const [open, setOpen] = useState(false)
 
-  const [rtsp1Txt, setRtsp1Txt] = useState('')
-  const [rtsp2Txt, setRtsp2Txt] = useState('')
+  const [rtsp1Txt, setRtsp1Txt] = useState('') //视频流智能处理控件1的文本
+  const [rtsp2Txt, setRtsp2Txt] = useState('') //视频流智能处理控件2的文本
+  const rtsp1Loop = useRef(false) //视频流智能处理控件1的循环
+  const rtsp2Loop = useRef(false) //视频流智能处理控件2的循环
+
+  const [rtsp1Result, setRtsp1Result] = useState<string[]>([]) //视频流智能处理控件1的结果
+  const [rtsp2Result, setRtsp2Result] = useState<string[]>([]) //视频流智能处理控件2的结果
 
   /** 点击了rtsp1的开始 */
   const rtsp1Start = () => {
     if (rtsp1Ref.current) {
+      rtsp1Loop.current = true
       rtsp1Ref.current.captureHandler()
     }
   }
@@ -27,6 +33,7 @@ const VideoStreamPage = () => {
   /** 点击了rtsp2的开始 */
   const rtsp2Start = () => {
     if (rtsp2Ref.current) {
+      rtsp2Loop.current = true
       rtsp2Ref.current.captureHandler()
     }
   }
@@ -51,9 +58,16 @@ const VideoStreamPage = () => {
         },
         output_type: [1],
         flow_id: rtsp1.flow
-      }).finally(() => {
-        setRtsp1Loading(false)
       })
+        .then(({ data, info }) => {
+          if (info.status === 200) {
+            setRtsp1Result((pre) => [data.output_data.text, ...pre])
+          }
+        })
+        .finally(() => {
+          setRtsp1Loading(false)
+          if (rtsp1Loop.current) rtsp1Start()
+        })
     }
     reader.readAsDataURL(file)
   }
@@ -77,9 +91,16 @@ const VideoStreamPage = () => {
         },
         output_type: [1],
         flow_id: rtsp2.flow
-      }).finally(() => {
-        setRtsp2Loading(false)
       })
+        .then(({ data, info }) => {
+          if (info.status === 200) {
+            setRtsp2Result((pre) => [data.output_data.text, ...pre])
+          }
+        })
+        .finally(() => {
+          setRtsp2Loading(false)
+          if (rtsp2Loop.current) rtsp2Start()
+        })
     }
     reader.readAsDataURL(file)
   }
@@ -114,33 +135,47 @@ const VideoStreamPage = () => {
         open={open}
         onOpenChange={(open) => setOpen(open)}
       >
-        <RobotComp className="lg:top-[2vh] right-[5vw] sm:bottom-[50vh] base:top-0" />
+        <RobotComp className="lg:top-[0] right-[5vw] sm:bottom-[50vh] base:top-0" />
       </Popover>
-      <div className="flex items-center justify-center gap-4 mt-[10vh]">
+      <div className="flex justify-center gap-4 mt-[5vh]">
         {/* 视频流智能处理控件1 */}
-        <Card hoverable={true}>
-          <div className="mb-4">视频流智能处理控件1</div>
-          <MonitorBoxComp ref={rtsp1Ref} rtsp={rtsp1?.rtsp} onCapture={rtsp1handleCapture} />
-          <div className="flex items-center justify-center gap-4 mt-4">
-            <Input value={rtsp1Txt} onChange={(e) => setRtsp1Txt(e.target.value)} />
-            <Button type="primary" onClick={rtsp1Start} loading={rtsp1Loading}>
-              开始
-            </Button>
-            <Button>结束</Button>
-          </div>
-        </Card>
+        <div className="w-[45vw]">
+          <Card hoverable={true}>
+            <div className="mb-4">视频流智能处理控件1</div>
+            <MonitorBoxComp ref={rtsp1Ref} rtsp={rtsp1?.rtsp} onCapture={rtsp1handleCapture} />
+            <div className="flex items-center justify-center gap-4 mt-4">
+              <Input value={rtsp1Txt} onChange={(e) => setRtsp1Txt(e.target.value)} />
+              <Button type="primary" onClick={rtsp1Start} loading={rtsp1Loading}>
+                开始
+              </Button>
+              <Button onClick={() => (rtsp1Loop.current = false)}>结束</Button>
+            </div>
+            <div className="mt-12 h-[15vh] overflow-y-auto flex flex-col gap-4">
+              {rtsp1Result.map((item, index) => {
+                return <div key={index}>{item}</div>
+              })}
+            </div>
+          </Card>
+        </div>
         {/* 视频流智能处理控件2 */}
-        <Card hoverable={true}>
-          <div className="mb-4">视频流智能处理控件2</div>
-          <MonitorBoxComp ref={rtsp2Ref} rtsp={rtsp2?.rtsp} onCapture={rtsp2handleCapture} />
-          <div className="flex items-center justify-center gap-4 mt-4">
-            <Input value={rtsp2Txt} onChange={(e) => setRtsp2Txt(e.target.value)} />
-            <Button type="primary" onClick={rtsp2Start} loading={rtsp2Loading}>
-              开始
-            </Button>
-            <Button>结束</Button>
-          </div>
-        </Card>
+        <div className="w-[45vw]">
+          <Card hoverable={true}>
+            <div className="mb-4">视频流智能处理控件2</div>
+            <MonitorBoxComp ref={rtsp2Ref} rtsp={rtsp2?.rtsp} onCapture={rtsp2handleCapture} />
+            <div className="flex items-center justify-center gap-4 mt-4">
+              <Input value={rtsp2Txt} onChange={(e) => setRtsp2Txt(e.target.value)} />
+              <Button type="primary" onClick={rtsp2Start} loading={rtsp2Loading}>
+                开始
+              </Button>
+              <Button onClick={() => (rtsp2Loop.current = false)}>结束</Button>
+            </div>
+            <div className="mt-12 h-[15vh] overflow-y-auto flex flex-col gap-4">
+              {rtsp2Result.map((item, index) => {
+                return <div key={index}>{item}</div>
+              })}
+            </div>
+          </Card>
+        </div>
       </div>
     </div>
   )
