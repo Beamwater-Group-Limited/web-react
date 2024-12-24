@@ -1,6 +1,6 @@
 import { Button, Card, Empty, Input, message, Spin } from 'antd'
 import MonitorBoxComp from './monitor-box'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { imgHandleApi } from '@/api'
 
 const VideoStreamComp = (props: { compName: string; rtsp?: string; flowId: string }) => {
@@ -18,7 +18,7 @@ const VideoStreamComp = (props: { compName: string; rtsp?: string; flowId: strin
     }
   }
 
-  /** 视频流智能处理控件1 */
+  /** 视频流智能处理控件 */
   const rtsphandleCapture = (file: File) => {
     if (!props.rtsp) return message.error('请先配置组件')
     const reader = new FileReader()
@@ -53,6 +53,12 @@ const VideoStreamComp = (props: { compName: string; rtsp?: string; flowId: strin
     }
     reader.readAsDataURL(file)
   }
+
+  useEffect(() => {
+    return () => {
+      loop.current = false
+    }
+  }, [])
 
   return (
     <div className="w-[45vw]">
