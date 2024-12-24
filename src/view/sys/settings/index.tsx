@@ -1,4 +1,4 @@
-import { Button, Form, message, Select } from 'antd'
+import { Button, Card, Form, Input, message, Select } from 'antd'
 import {
   ComponentFlowType,
   componentSettingSaveApi,
@@ -28,6 +28,8 @@ const SettingsPage = () => {
 
   const [imgFlow, setImgFlow] = useState('') //图片流程
   const [writeFlow, setWriteFlow] = useState('') //手写流程
+  const [rtsp1, setRtsp1] = useState('') //rtsp地址
+  const [rtsp2, setRtsp2] = useState('') //rtsp地址
 
   /** 点击保存 */
   const saveHandler = async () => {
@@ -37,11 +39,13 @@ const SettingsPage = () => {
     let param: ComponentFlowType[] = [
       {
         component: settingOf === 'img' ? '图片智能处理控件' : '视频流智能处理控件1',
-        flow: img
+        flow: img,
+        rtsp: settingOf === 'img' ? '' : rtsp1
       },
       {
         component: settingOf === 'img' ? '手写字智能处理控件' : '视频流智能处理控件2',
-        flow: write
+        flow: write,
+        rtsp: settingOf === 'img' ? '' : rtsp2
       }
     ]
     componentSettingSaveApi(param).then((res) => {
@@ -147,26 +151,40 @@ const SettingsPage = () => {
           </Button>
         </div>
       </div>
-      <Form form={imgSettingsForm} name="imgSettingsForm" layout="vertical" autoComplete="off">
-        <Form.Item
-          name="img"
-          label={settingOf === 'img' ? '图片智能处理控件' : '视频流智能处理控件1'}
-          rules={[{ required: true }]}
-        >
-          <Select value={imgFlow} onChange={imgFlowChange} options={options} />
-        </Form.Item>
-      </Form>
-      <DragPage show={true} ref={imgFlowRef} />
-      <Form form={writeSettingsForm} layout="vertical" autoComplete="off" className="mt-4">
-        <Form.Item
-          name="write"
-          label={settingOf === 'img' ? '手写字智能处理控件' : '视频流智能处理控件2'}
-          rules={[{ required: true }]}
-        >
-          <Select value={writeFlow} onChange={writeFlowChange} options={options} />
-        </Form.Item>
-      </Form>
-      <DragPage show={true} ref={writeFlowRef} />
+      <Card hoverable={true}>
+        <Form form={imgSettingsForm} name="imgSettingsForm" layout="vertical" autoComplete="off">
+          <Form.Item
+            name="img"
+            label={settingOf === 'img' ? '图片智能处理控件' : '视频流智能处理控件1'}
+            rules={[{ required: true }]}
+          >
+            <Select value={imgFlow} onChange={imgFlowChange} options={options} />
+          </Form.Item>
+          {settingOf === 'video' && (
+            <Form.Item name="rtsp" label="rtsp流地址" rules={[{ required: true }]}>
+              <Input value={rtsp1} onChange={(e) => setRtsp1(e.target.value)} />
+            </Form.Item>
+          )}
+        </Form>
+        <DragPage show={true} ref={imgFlowRef} />
+      </Card>
+      <Card className="mt-8" hoverable={true}>
+        <Form form={writeSettingsForm} layout="vertical" autoComplete="off" className="mt-4">
+          <Form.Item
+            name="write"
+            label={settingOf === 'img' ? '手写字智能处理控件' : '视频流智能处理控件2'}
+            rules={[{ required: true }]}
+          >
+            <Select value={writeFlow} onChange={writeFlowChange} options={options} />
+          </Form.Item>
+          {settingOf === 'video' && (
+            <Form.Item name="rtsp" label="rtsp流地址" rules={[{ required: true }]}>
+              <Input value={rtsp2} onChange={(e) => setRtsp2(e.target.value)} />
+            </Form.Item>
+          )}
+        </Form>
+        <DragPage show={true} ref={writeFlowRef} />
+      </Card>
     </>
   )
 }
