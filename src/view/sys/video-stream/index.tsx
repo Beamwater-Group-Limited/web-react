@@ -2,19 +2,36 @@ import MonitorBoxComp from './components/monitor-box'
 import { Popover } from 'antd'
 import RobotComp from '@/components/robot'
 import { useEffect, useState } from 'react'
+// import { getComponentSettingApi } from '@/api'
 
 /** 视频流处理 */
 const VideoStreamPage = () => {
+  // const [flowId1, setFlowId1] = useState('')
+  // const [flowId2, setFlowId2] = useState('')
   const [open, setOpen] = useState(false)
   const handleCapture = (file: File) => {
     console.log(file)
   }
-
+  /** 获取组件配置 */
+  // const getComponentsSettings = () => {
+  //   getComponentSettingApi().then(({ info, data }) => {
+  //     if (info.status === 200) {
+  //       data.forEach((item) => {
+  //         if (item.component === '视频流智能处理控件1') {
+  //           setFlowId1(item.flow)
+  //         } else if (item.component === '视频流智能处理控件2') {
+  //           setFlowId2(item.flow)
+  //         }
+  //       })
+  //     }
+  //   })
+  // }
   useEffect(() => {
     setOpen(true)
     setTimeout(() => {
       setOpen(false)
     }, 5000)
+    // getComponentsSettings()
   }, [])
 
   return (
@@ -30,14 +47,14 @@ const VideoStreamPage = () => {
       </Popover>
       <div className="flex items-center justify-center gap-4 mt-[20vh]">
         <div>
-          <div className="mb-4">流处理控件1</div>
+          <div className="mb-4">视频流智能处理控件1</div>
           <MonitorBoxComp
             rtsp="rtsp://admin:yuanm201109@192.168.0.111:555/Streaming/Channels/1"
             onCapture={handleCapture}
           />
         </div>
         <div>
-          <div className="mb-4">流处理控件2</div>
+          <div className="mb-4">视频流智能处理控件2</div>
           <MonitorBoxComp
             rtsp="rtsp://admin:yuanm201109@192.168.0.112:554/cam/realmonitor?channel=1&subtype=0"
             onCapture={handleCapture}
