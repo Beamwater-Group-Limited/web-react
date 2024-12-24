@@ -114,9 +114,9 @@ const VideoStreamPage = () => {
         open={open}
         onOpenChange={(open) => setOpen(open)}
       >
-        <RobotComp className="lg:top-[10vh] right-[5vw] sm:bottom-[50vh] base:top-0" />
+        <RobotComp className="lg:top-[2vh] right-[5vw] sm:bottom-[50vh] base:top-0" />
       </Popover>
-      <div className="flex items-center justify-center gap-4 mt-[20vh]">
+      <div className="flex items-center justify-center gap-4 mt-[10vh]">
         {/* 视频流智能处理控件1 */}
         <Card hoverable={true}>
           <div className="mb-4">视频流智能处理控件1</div>
