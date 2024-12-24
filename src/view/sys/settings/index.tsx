@@ -82,11 +82,11 @@ const SettingsPage = () => {
   }
 
   /** 回显 */
-  const optionsReview = () => {
+  const optionsReview = (type: string) => {
     getComponentSettingApi().then(({ data, info }) => {
       if (info.status === 200) {
         data.forEach((item) => {
-          if (settingOf === 'img') {
+          if (type === 'img') {
             if (item.component === '图片智能处理控件') {
               setImgFlow(item.flow)
               imgFlowRef.current?.drawById(item.flow)
@@ -96,7 +96,7 @@ const SettingsPage = () => {
               writeFlowRef.current?.drawById(item.flow)
               writeSettingsForm.setFieldValue('write', item.flow)
             }
-          } else if (settingOf === 'video') {
+          } else if (type === 'video') {
             if (item.component === '视频流智能处理控件1') {
               setImgFlow(item.flow)
               imgFlowRef.current?.drawById(item.flow)
@@ -117,11 +117,13 @@ const SettingsPage = () => {
   useEffect(() => {
     const params = getRouteQuery(location.search)
     if (params.page) {
+      initOptions()
       if (params.page === 'img') {
         setSettingOf('img')
+      } else {
+        setSettingOf('video')
       }
-      initOptions()
-      optionsReview()
+      optionsReview(params.page)
     }
   }, [])
 
