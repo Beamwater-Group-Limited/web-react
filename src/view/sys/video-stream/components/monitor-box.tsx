@@ -3,7 +3,10 @@ import { message } from 'antd'
 import WebRtcStreamer from '@/utils/webrtcstreamer'
 import { getRandomString } from '@lichang666/utils'
 const MonitorBoxComp = forwardRef(
-  (props: { onCapture: (file: File) => void; className?: string; rtsp: string }, ref: Ref<any>) => {
+  (
+    props: { onCapture: (file: File) => void; className?: string; rtsp?: string },
+    ref: Ref<any>
+  ) => {
     const webRtcServer = useRef<any>(null)
     const webrtcConfig = useRef({
       url: 'http://192.168.0.70:8000',
@@ -31,7 +34,7 @@ const MonitorBoxComp = forwardRef(
       return () => {
         webRtcServer.current.disconnect()
       }
-    }, [])
+    }, [props.rtsp])
 
     const captureHandler = () => {
       const video = document.getElementById(videoId.current) as HTMLVideoElement

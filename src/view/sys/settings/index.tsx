@@ -103,12 +103,16 @@ const SettingsPage = () => {
           } else if (type === 'video') {
             if (item.component === '视频流智能处理控件1') {
               setImgFlow(item.flow)
+              setRtsp1(item.rtsp || '')
               imgFlowRef.current?.drawById(item.flow)
               imgSettingsForm.setFieldValue('img', item.flow)
+              imgSettingsForm.setFieldValue('rtsp', item.rtsp)
             } else if (item.component === '视频流智能处理控件2') {
               setWriteFlow(item.flow)
+              setRtsp2(item.rtsp || '')
               writeFlowRef.current?.drawById(item.flow)
               writeSettingsForm.setFieldValue('write', item.flow)
+              writeSettingsForm.setFieldValue('rtsp', item.rtsp)
             }
           }
         })
