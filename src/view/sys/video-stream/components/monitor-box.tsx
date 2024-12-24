@@ -42,12 +42,24 @@ const MonitorBoxComp = forwardRef(
       if (!video || !canvas) return
       const context = canvas.getContext('2d')
       if (context) {
-        // 设置 canvas 的宽高与 video 一致
-        canvas.width = video.videoWidth
-        canvas.height = video.videoHeight
-
+        // 获取视频的宽高
+        const videoWidth = video.videoWidth
+        const videoHeight = video.videoHeight
+        // 设置缩放后的宽度，最大为 1000px
+        const maxWidth = 1000
+        let canvasWidth = videoWidth
+        let canvasHeight = videoHeight
+        // 如果视频宽度大于 1000，则按比例缩放
+        if (videoWidth > maxWidth) {
+          const scale = maxWidth / videoWidth
+          canvasWidth = maxWidth
+          canvasHeight = videoHeight * scale
+        }
+        // 设置 canvas 的宽高为缩放后的值
+        canvas.width = canvasWidth
+        canvas.height = canvasHeight
         // 将视频当前帧绘制到 canvas 上
-        context.drawImage(video, 0, 0, canvas.width, canvas.height)
+        context.drawImage(video, 0, 0, canvasWidth, canvasHeight)
         // 将 Canvas 内容转为 Blob 对象
         canvas.toBlob((blob) => {
           if (blob) {
