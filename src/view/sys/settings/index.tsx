@@ -1,15 +1,22 @@
 import { Button, Form, message, Select } from 'antd'
-import { componentSettingSaveApi, FlowItemType, getAllFlowApi, getComponentSettingApi } from '@/api'
+import {
+  ComponentFlowType,
+  componentSettingSaveApi,
+  getAllFlowApi,
+  getComponentSettingApi
+} from '@/api'
 import { useEffect, useRef, useState } from 'react'
 import { ArrowLeftOutlined } from '@ant-design/icons'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import DragPage from '../drag'
+import { getRouteQuery } from '@/utils'
 /** 配置页面 */
 const SettingsPage = () => {
   const [imgSettingsForm] = Form.useForm()
   const [writeSettingsForm] = Form.useForm()
   const navigate = useNavigate()
-  const [_allFlows, setAllFlows] = useState<FlowItemType[]>([]) //所有流程
+  const location = useLocation()
+  const [settingOf, setSettingOf] = useState('') //判断是谁的配置
   const imgFlowRef = useRef<any>()
   const writeFlowRef = useRef<any>()
   const [options, setOptions] = useState<
@@ -20,23 +27,24 @@ const SettingsPage = () => {
   >([]) //下拉框选项
 
   const [imgFlow, setImgFlow] = useState('') //图片流程
-  const [writeFlow, setWriteFlow] = useState('')
+  const [writeFlow, setWriteFlow] = useState('') //手写流程
 
   /** 点击保存 */
   const saveHandler = async () => {
     const { img } = await imgSettingsForm.validateFields()
     const { write } = await writeSettingsForm.validateFields()
     if (!img || !write) return message.warning('请选择流程')
-    componentSettingSaveApi([
+    let param: ComponentFlowType[] = [
       {
-        component: '图片智能处理控件',
+        component: settingOf === 'img' ? '图片智能处理控件' : '视频流智能处理控件1',
         flow: img
       },
       {
-        component: '手写字智能处理控件',
+        component: settingOf === 'img' ? '手写字智能处理控件' : '视频流智能处理控件2',
         flow: write
       }
-    ]).then((res) => {
+    ]
+    componentSettingSaveApi(param).then((res) => {
       if (res.info.status === 200) {
         message.success('保存成功')
         navigate(-1)
@@ -68,7 +76,6 @@ const SettingsPage = () => {
             value: item.id
           }
         })
-        setAllFlows(data)
         setOptions(optionList)
       }
     })
@@ -79,14 +86,26 @@ const SettingsPage = () => {
     getComponentSettingApi().then(({ data, info }) => {
       if (info.status === 200) {
         data.forEach((item) => {
-          if (item.component === '图片智能处理控件') {
-            setImgFlow(item.flow)
-            imgFlowRef.current?.drawById(item.flow)
-            imgSettingsForm.setFieldValue('img', item.flow)
-          } else if (item.component === '手写字智能处理控件') {
-            setWriteFlow(item.flow)
-            writeFlowRef.current?.drawById(item.flow)
-            writeSettingsForm.setFieldValue('write', item.flow)
+          if (settingOf === 'img') {
+            if (item.component === '图片智能处理控件') {
+              setImgFlow(item.flow)
+              imgFlowRef.current?.drawById(item.flow)
+              imgSettingsForm.setFieldValue('img', item.flow)
+            } else if (item.component === '手写字智能处理控件') {
+              setWriteFlow(item.flow)
+              writeFlowRef.current?.drawById(item.flow)
+              writeSettingsForm.setFieldValue('write', item.flow)
+            }
+          } else if (settingOf === 'video') {
+            if (item.component === '视频流智能处理控件1') {
+              setImgFlow(item.flow)
+              imgFlowRef.current?.drawById(item.flow)
+              imgSettingsForm.setFieldValue('img', item.flow)
+            } else if (item.component === '视频流智能处理控件2') {
+              setWriteFlow(item.flow)
+              writeFlowRef.current?.drawById(item.flow)
+              writeSettingsForm.setFieldValue('write', item.flow)
+            }
           }
         })
       } else {
@@ -96,8 +115,14 @@ const SettingsPage = () => {
   }
 
   useEffect(() => {
-    initOptions()
-    optionsReview()
+    const params = getRouteQuery(location.search)
+    if (params.page) {
+      if (params.page === 'img') {
+        setSettingOf('img')
+      }
+      initOptions()
+      optionsReview()
+    }
   }, [])
 
   return (
@@ -121,13 +146,21 @@ const SettingsPage = () => {
         </div>
       </div>
       <Form form={imgSettingsForm} name="imgSettingsForm" layout="vertical" autoComplete="off">
-        <Form.Item name="img" label="图片智能处理控件" rules={[{ required: true }]}>
+        <Form.Item
+          name="img"
+          label={settingOf === 'img' ? '图片智能处理控件' : '视频流智能处理控件1'}
+          rules={[{ required: true }]}
+        >
           <Select value={imgFlow} onChange={imgFlowChange} options={options} />
         </Form.Item>
       </Form>
       <DragPage show={true} ref={imgFlowRef} />
       <Form form={writeSettingsForm} layout="vertical" autoComplete="off" className="mt-4">
-        <Form.Item name="write" label="手写字智能处理控件" rules={[{ required: true }]}>
+        <Form.Item
+          name="write"
+          label={settingOf === 'img' ? '手写字智能处理控件' : '视频流智能处理控件2'}
+          rules={[{ required: true }]}
+        >
           <Select value={writeFlow} onChange={writeFlowChange} options={options} />
         </Form.Item>
       </Form>

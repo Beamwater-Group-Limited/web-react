@@ -28,7 +28,7 @@ const SaveDialogComp = (props: {
         if (info.status === 200) {
           closeHandler()
           message.success('保存成功')
-          navigate('/flow-list')
+          navigate('/demo/flow-list')
         } else {
           message.error(info.name)
         }
