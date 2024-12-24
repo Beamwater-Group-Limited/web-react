@@ -1,15 +1,9 @@
-import {
-  BubbleListComp,
-  InputBoxComp,
-  FlowSelectorComp
-  // MonitorBoxComp
-} from './components'
+import { BubbleListComp, InputBoxComp, FlowSelectorComp } from './components'
 import { Suggestion } from '@ant-design/x'
 import { useRef, useState } from 'react'
 import { BubbleItemType } from './types'
 import { FlowItemType, runApi } from '@/api'
 import { UploadFile } from 'antd'
-// import { getRandomString } from '@lichang666/utils'
 import { InputBoxCompRef } from './components/input-box'
 import RobotComp from '@/components/robot'
 
