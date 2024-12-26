@@ -1,4 +1,4 @@
-import { Button, Card, Form, Input, message, Select } from 'antd'
+import { Button, Card, Divider, Form, Input, InputRef, message, Select, Space } from 'antd'
 import {
   ComponentFlowType,
   componentSettingSaveApi,
@@ -6,7 +6,7 @@ import {
   getComponentSettingApi
 } from '@/api'
 import { useEffect, useRef, useState } from 'react'
-import { ArrowLeftOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons'
 import { useLocation, useNavigate } from 'react-router-dom'
 import DragPage from '../drag'
 import { getRouteQuery } from '@/utils'
@@ -19,6 +19,9 @@ const SettingsPage = () => {
   const [settingOf, setSettingOf] = useState('') //判断是谁的配置
   const imgFlowRef = useRef<any>()
   const writeFlowRef = useRef<any>()
+  const [name, setName] = useState('')
+  const rtsp1InputRef = useRef<InputRef>(null)
+  const [items, setItems] = useState<string[]>([])
   const [options, setOptions] = useState<
     {
       label: string
@@ -30,6 +33,12 @@ const SettingsPage = () => {
   const [writeFlow, setWriteFlow] = useState('') //手写流程
   const [rtsp1, setRtsp1] = useState('') //rtsp地址
   const [rtsp2, setRtsp2] = useState('') //rtsp地址
+
+  const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    e.preventDefault()
+    setItems([...items, name])
+    setName('')
+  }
 
   /** 点击保存 */
   const saveHandler = async () => {
@@ -166,7 +175,31 @@ const SettingsPage = () => {
           </Form.Item>
           {settingOf === 'video' && (
             <Form.Item name="rtsp" label="rtsp流地址" rules={[{ required: true }]}>
-              <Input value={rtsp1} onChange={(e) => setRtsp1(e.target.value)} />
+              <Select
+                value={rtsp1}
+                style={{ width: '100%' }}
+                placeholder="给控件输入信息"
+                onChange={(e) => setRtsp1(e)}
+                dropdownRender={(menu) => (
+                  <>
+                    {menu}
+                    <Divider style={{ margin: '8px 0' }} />
+                    <Space style={{ padding: '0 8px 4px' }}>
+                      <Input
+                        placeholder="输入下拉内容"
+                        ref={rtsp1InputRef}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        onKeyDown={(e) => e.stopPropagation()}
+                      />
+                      <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
+                        添加下拉项
+                      </Button>
+                    </Space>
+                  </>
+                )}
+                options={items.map((item) => ({ label: item, value: item }))}
+              />
             </Form.Item>
           )}
         </Form>
@@ -183,7 +216,31 @@ const SettingsPage = () => {
           </Form.Item>
           {settingOf === 'video' && (
             <Form.Item name="rtsp" label="rtsp流地址" rules={[{ required: true }]}>
-              <Input value={rtsp2} onChange={(e) => setRtsp2(e.target.value)} />
+              <Select
+                value={rtsp2}
+                style={{ width: '100%' }}
+                placeholder="给控件输入信息"
+                onChange={(e) => setRtsp2(e)}
+                dropdownRender={(menu) => (
+                  <>
+                    {menu}
+                    <Divider style={{ margin: '8px 0' }} />
+                    <Space style={{ padding: '0 8px 4px' }}>
+                      <Input
+                        placeholder="输入下拉内容"
+                        ref={rtsp1InputRef}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        onKeyDown={(e) => e.stopPropagation()}
+                      />
+                      <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
+                        添加下拉项
+                      </Button>
+                    </Space>
+                  </>
+                )}
+                options={items.map((item) => ({ label: item, value: item }))}
+              />
             </Form.Item>
           )}
         </Form>
