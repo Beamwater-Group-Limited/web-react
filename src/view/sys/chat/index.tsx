@@ -3,7 +3,7 @@ import { Suggestion } from '@ant-design/x'
 import { useRef, useState } from 'react'
 import { BubbleItemType } from './types'
 import { FlowItemType, runApi } from '@/api'
-import { UploadFile } from 'antd'
+import { Popover, UploadFile } from 'antd'
 import { InputBoxCompRef } from './components/input-box'
 import RobotComp from '@/components/robot'
 
@@ -24,7 +24,7 @@ const ChatPage = () => {
   const [fileList, setFileList] = useState<UploadFile[]>([]) //文件列表
 
   const inputBoxRef = useRef<InputBoxCompRef>(null)
-
+  const [popVis, setPopVis] = useState(false)
   /** 点击提交 */
   const submitHandler = () => {
     if (!inputBoxRef.current) return
@@ -84,20 +84,17 @@ const ChatPage = () => {
     }
   }
 
-  /** 截屏后保存图片 */
-  // const captureHandler = (file: File) => {
-  //   let f = file as unknown as UploadFile
-  //   f.uid = getRandomString(12)
-  //   setFileList((pre) => {
-  //     return [...pre, f]
-  //   })
-  //   inputBoxRef.current && inputBoxRef.current.setOpen(true)
-  // }
-
   return (
     <div className="relative bg-white w-full h-full">
-      <RobotComp className="lg:top-[10vh] lg:right-[10vw] sm:top-0 sm:right-[5vw]" />
-      {/* <MonitorBoxComp onCapture={captureHandler} /> */}
+      <Popover
+        content={<span>点击我进行流程配置</span>}
+        placement="left"
+        trigger="click"
+        open={popVis}
+        onOpenChange={(open) => setPopVis(open)}
+      >
+        <RobotComp className="lg:top-[0vh] right-[5vw] sm:bottom-[50vh] base:top-0" />
+      </Popover>
       {/* 流程选择器 */}
       <FlowSelectorComp
         className="absolute top-[1vh] lg:left-[25vw] sm:left-[10vw] w-[50vw]"

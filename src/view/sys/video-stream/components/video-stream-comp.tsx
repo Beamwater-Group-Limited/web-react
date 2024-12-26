@@ -127,9 +127,11 @@ const VideoStreamComp = (props: {
         </div>
         {resultList.length > 0 ? (
           <div className={'mt-6 h-[18vh] w-full overflow-y-auto flex flex-col gap-4'}>
-            <div className="flex items-center justify-center">
-              <Spin />
-            </div>
+            {loading && (
+              <div className="flex items-center justify-center">
+                <Spin />
+              </div>
+            )}
             {resultList.map((item, index) => {
               return <div key={index}>{item}</div>
             })}
