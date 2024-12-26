@@ -22,6 +22,7 @@ const VideoStreamComp = (props: {
   const inputRef = useRef<InputRef>(null)
 
   const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    if (name === '') return
     e.preventDefault()
     setItems([...items, name])
     setName('')
