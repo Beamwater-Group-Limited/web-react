@@ -42,7 +42,7 @@ const ChatPage = () => {
           ...pre,
           {
             time: new Date().getTime().toString(),
-            content: `<img src="${src}" alt="alt text" style="width: 200px; height: 200px;" />`,
+            content: `<img src="${src}" style="width: 200px; height: 200px;" />`,
             role: 'user'
           }
         ])
