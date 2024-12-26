@@ -1,8 +1,9 @@
-import { Button, Card, Empty, Input, message, Spin } from 'antd'
+import { Button, Card, Divider, Empty, Input, InputRef, message, Select, Space, Spin } from 'antd'
 import MonitorBoxComp from './monitor-box'
 import { useEffect, useRef, useState } from 'react'
 import { imgHandleApi } from '@/api'
 import { TeachingVideo } from '../../img/components'
+import { PlusOutlined } from '@ant-design/icons'
 
 const VideoStreamComp = (props: {
   compName: string
@@ -16,6 +17,22 @@ const VideoStreamComp = (props: {
   const [resultList, setResultList] = useState<string[]>([]) //结果列表
   const loop = useRef(false) //循环
   const [visible, setVisible] = useState(false) //视频教学弹窗
+  const [items, setItems] = useState(['描述画面', '画面里面有人吗'])
+  const [name, setName] = useState('')
+  const inputRef = useRef<InputRef>(null)
+
+  const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    e.preventDefault()
+    setItems([...items, name])
+    setName('')
+    setTimeout(() => {
+      inputRef.current?.focus()
+    }, 0)
+  }
+
+  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value)
+  }
 
   /** 点击了开始 */
   const startHandler = () => {
@@ -78,10 +95,30 @@ const VideoStreamComp = (props: {
         </div>
         <MonitorBoxComp ref={rtspRef} rtsp={props.rtsp} onCapture={rtsphandleCapture} />
         <div className="flex items-center justify-center gap-4 mt-4">
-          <Input
+          <Select
             value={rtspTxt}
-            placeholder="给控件输入消息"
-            onChange={(e) => setRtspTxt(e.target.value)}
+            style={{ width: '100%' }}
+            placeholder="给控件输入信息"
+            onChange={(e) => setRtspTxt(e)}
+            dropdownRender={(menu) => (
+              <>
+                {menu}
+                <Divider style={{ margin: '8px 0' }} />
+                <Space style={{ padding: '0 8px 4px' }}>
+                  <Input
+                    placeholder="输入下拉内容"
+                    ref={inputRef}
+                    value={name}
+                    onChange={onNameChange}
+                    onKeyDown={(e) => e.stopPropagation()}
+                  />
+                  <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
+                    添加下拉项
+                  </Button>
+                </Space>
+              </>
+            )}
+            options={items.map((item) => ({ label: item, value: item }))}
           />
           <Button type="primary" onClick={startHandler} loading={loading}>
             开始
