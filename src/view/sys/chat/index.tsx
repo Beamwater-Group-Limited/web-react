@@ -2,7 +2,7 @@ import { BubbleListComp, InputBoxComp, FlowSelectorComp } from './components'
 import { Suggestion } from '@ant-design/x'
 import { useRef, useState } from 'react'
 import { BubbleItemType } from './types'
-import { FlowItemType } from '@/api'
+import { FlowItemType, imgHandleApi } from '@/api'
 import { Popover, UploadFile } from 'antd'
 import { InputBoxCompRef } from './components/input-box'
 import RobotComp from '@/components/robot'
@@ -37,9 +37,45 @@ const ChatPage = () => {
           time: new Date().getTime().toString(),
           content: inputValue,
           role: 'user'
+        },
+        {
+          time: new Date().getTime().toString(),
+          content: '',
+          loading: true,
+          role: 'ai'
         }
       ]
     })
+    setLoading(true)
+    imgHandleApi({
+      input_type: [1],
+      input_data: {
+        text: inputValue,
+        image_data: '',
+        voice_data: '',
+        file_data: '',
+        stream: ''
+      },
+      output_type: [1],
+      flow_id: currentFlow.id
+    })
+      .then(({ data, info }) => {
+        if (info.status === 200) {
+          setBubbleList((pre) => {
+            return [
+              ...pre.slice(0, pre.length - 1),
+              {
+                time: new Date().getTime().toString(),
+                content: data.output_data.text,
+                role: 'ai'
+              }
+            ]
+          })
+        }
+      })
+      .finally(() => {
+        setLoading(false)
+      })
     setInputValue('')
   }
 

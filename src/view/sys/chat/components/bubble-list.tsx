@@ -16,7 +16,8 @@ const roles: GetProp<typeof Bubble.List, 'roles'> = {
     typing: { step: 5, interval: 20 },
     style: {
       maxWidth: 600
-    }
+    },
+    messageRender: renderMarkdown
   },
   user: {
     placement: 'end',
@@ -43,6 +44,7 @@ const BubbleListComp = (props: {
             return {
               key: bubbleItem.time,
               role: bubbleItem.role,
+              loading: bubbleItem.loading,
               content: bubbleItem.content
             }
           })}

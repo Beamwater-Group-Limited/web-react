@@ -102,7 +102,7 @@ const InputBoxComp = forwardRef(
         prefix={<PrefixComp fileList={props.fileList} fileChange={fileChangeHandler} />}
         value={inputValue}
         onChange={inputValueChangeHandler}
-        disabled={props.loading}
+        loading={props.loading}
         allowSpeech
         onSubmit={props.submitHandler}
         onKeyDown={props.onKeyDown}
