@@ -8,13 +8,8 @@ import { InputBoxCompRef } from './components/input-box'
 import RobotComp from '@/components/robot'
 
 const suggestions = [
-  { label: 'Write a report', value: 'report' },
-  { label: 'Draw a picture', value: 'draw' },
-  {
-    label: 'Check some knowledge',
-    value: 'knowledge',
-    extra: 'Extra Info'
-  }
+  { label: '写一份报告', value: '写一份报告' },
+  { label: '画一张图片', value: '画一张图片' }
 ]
 
 const ChatPage = () => {
